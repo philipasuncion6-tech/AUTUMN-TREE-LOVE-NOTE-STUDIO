@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Love Note Tulips Message Lab Studio</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="autumnLeaves"></canvas>
+
+<header class="top">
+  <div class="brand">🌷 LOVE NOTE</div>
+  <div class="subtitle">TULIPS MESSAGE LAB STUDIO</div>
+  <p>A little love, wrapped in flowers and autumn magic</p>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="glass">
+      <div class="glass-shine"></div>
+      <div class="flowers">🌷 🌷 🌷</div>
+      <div class="flower-small">🌷　🌷　🌷</div>
+      <div class="ribbon">WITH LOVE</div>
+      <div class="glass-base"></div>
+    </div>
+    <div class="hero-caption">A garden of love, just for you</div>
+  </section>
+
+  <section class="studio">
+    <h1>💌 Create Your Love Note</h1>
+    <p class="intro">Send a beautiful message surrounded by tulips and falling autumn leaves.</p>
+
+    <label for="recipient">To someone special</label>
+    <input id="recipient" type="text" placeholder="Enter recipient's name">
+
+    <label for="occasion">Choose your occasion</label>
+    <select id="occasion">
+      <option value="love">A message of love</option>
+      <option value="birthday">Birthday wishes</option>
+      <option value="anniversary">Happy anniversary</option>
+      <option value="thankyou">Thank you</option>
+      <option value="missyou">I miss you</option>
+      <option value="friendship">A note for a friend</option>
+    </select>
+
+    <label for="message">Your personal message</label>
+    <textarea id="message" maxlength="500" placeholder="Write your heartfelt message here..."></textarea>
+    <div class="counter"><span id="count">0</span>/500</div>
+
+    <div class="actions">
+      <button id="previewBtn">✨ Update Love Note</button>
+      <button id="copyBtn" class="secondary">📋 Copy Message</button>
+      <button id="downloadBtn" class="secondary">💌 Save Message</button>
+    </div>
+
+    <div class="preview">
+      <div class="preview-title">YOUR LOVE NOTE</div>
+      <div class="preview-flowers">🌷　🌷　🌷</div>
+      <h2 id="previewTo">To Someone Special</h2>
+      <p id="previewMessage">May your day bloom with happiness, warmth, and beautiful moments. Sending you love, wrapped in tulips. ❤️</p>
+      <div class="preview-sign">With love, always 💗</div>
+    </div>
+
+    <div class="video-studio">
+      <h2>🎬 Animated Tulips Video Studio</h2>
+      <p>Create a 12-second animated Love Note video with falling autumn leaves.</p>
+      <button id="videoBtn" onclick="createTulipsVideo()">🌷 CREATE TULIPS MP4 VIDEO</button>
+      <p id="videoStatus" role="status">Ready to create your romantic video.</p>
+    </div>
+  </section>
+</main>
+
+<footer>Created with love • MY CYBER LAB V2</footer>
+<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/umd/index.js"></script>
+<script src="js/app.js"></script>
+<script src="js/video.js"></script>
+</body>
+</html>

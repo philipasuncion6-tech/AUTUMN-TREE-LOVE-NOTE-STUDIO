@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 850">
+<defs>
+ <linearGradient id="sky" x2="0" y2="1">
+  <stop stop-color="#263c48"/><stop offset=".55" stop-color="#a65b3e"/><stop offset="1" stop-color="#edb477"/>
+ </linearGradient>
+ <linearGradient id="trunk" x2="1">
+  <stop stop-color="#39251e"/><stop offset=".5" stop-color="#805039"/><stop offset="1" stop-color="#38251f"/>
+ </linearGradient>
+ <radialGradient id="leaf">
+  <stop stop-color="#ffd47a"/><stop offset=".65" stop-color="#dc7836"/><stop offset="1" stop-color="#8c3828"/>
+ </radialGradient>
+ <linearGradient id="wood" x2="0" y2="1">
+  <stop stop-color="#d69a60"/><stop offset="1" stop-color="#68402e"/>
+ </linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="18"/></filter>
+</defs>
+<rect width="1000" height="850" fill="url(#sky)"/>
+<circle cx="760" cy="250" r="145" fill="#ffd89a" opacity=".38" filter="url(#glow)"/>
+<path d="M0 650 Q250 590 500 650 T1000 630 V850 H0Z" fill="#382d29" opacity=".55"/>
+<!-- tree trunk -->
+<path d="M470 720 Q490 560 450 410 Q400 300 290 215 Q410 260 465 350 Q450 220 425 120 Q505 245 510 355 Q580 245 710 170 Q600 300 545 415 Q550 560 580 720Z" fill="url(#trunk)"/>
+<path d="M490 700 Q515 520 485 365 M470 410 Q370 300 320 260 M515 380 Q610 270 680 220" fill="none" stroke="#b77a4d" stroke-width="15" opacity=".5"/>
+<!-- crown clusters -->
+<g fill="url(#leaf)">
+ <ellipse cx="300" cy="220" rx="155" ry="105"/>
+ <ellipse cx="440" cy="140" rx="180" ry="125"/>
+ <ellipse cx="620" cy="155" rx="180" ry="120"/>
+ <ellipse cx="770" cy="260" rx="150" ry="110"/>
+ <ellipse cx="500" cy="270" rx="190" ry="125"/>
+ <ellipse cx="230" cy="330" rx="120" ry="90"/>
+ <ellipse cx="730" cy="370" rx="130" ry="95"/>
+</g>
+<g fill="#f7bb61" opacity=".8">
+ <circle cx="250" cy="180" r="18"/><circle cx="350" cy="110" r="16"/>
+ <circle cx="460" cy="190" r="20"/><circle cx="570" cy="95" r="17"/>
+ <circle cx="700" cy="180" r="19"/><circle cx="790" cy="290" r="17"/>
+ <circle cx="380" cy="300" r="15"/><circle cx="640" cy="300" r="16"/>
+</g>
+<g fill="#8d3e2d" opacity=".85">
+ <circle cx="330" cy="245" r="17"/><circle cx="520" cy="125" r="14"/>
+ <circle cx="660" cy="225" r="18"/><circle cx="220" cy="300" r="14"/>
+ <circle cx="760" cy="350" r="16"/>
+</g>
+<!-- fallen leaves -->
+<g fill="#e8a34e" opacity=".85">
+ <path d="M110 690q30-40 55 0q-28 35-55 0z"/>
+ <path d="M760 690q30-40 55 0q-28 35-55 0z"/>
+ <path d="M300 745q30-40 55 0q-28 35-55 0z"/>
+ <path d="M650 755q30-40 55 0q-28 35-55 0z"/>
+</g>
+<!-- romantic park bench -->
+<g transform="translate(0 0)" stroke="#4a2d24" stroke-width="13" stroke-linejoin="round">
+ <path d="M315 560 L685 560 L685 635 L315 635Z" fill="url(#wood)"/>
+ <path d="M325 520 L675 520 L675 550 L325 550Z" fill="#b97849"/>
+ <path d="M325 565 L675 565 M325 600 L675 600" fill="none" stroke="#e2ad73" stroke-width="7"/>
+ <path d="M355 635 L335 745 M645 635 L665 745" fill="none" stroke="#57372a" stroke-width="19"/>
+ <path d="M320 505 L320 470 Q500 420 680 470 L680 505" fill="none" stroke="#70452f" stroke-width="20"/>
+ <path d="M350 470 Q500 435 650 470" fill="none" stroke="#d69a60" stroke-width="8"/>
+</g>
+<path d="M0 760 Q250 720 500 770 T1000 750 V850 H0Z" fill="#201f20" opacity=".35"/>
+</svg>

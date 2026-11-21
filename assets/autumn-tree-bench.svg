@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 850">
+<defs>
+ <linearGradient id="sky" x2="0" y2="1">
+  <stop stop-color="#263c48"/><stop offset=".55" stop-color="#a65b3e"/><stop offset="1" stop-color="#edb477"/>
+ </linearGradient>
+ <linearGradient id="trunk" x2="1">
+  <stop stop-color="#39251e"/><stop offset=".5" stop-color="#805039"/><stop offset="1" stop-color="#38251f"/>
+ </linearGradient>
+ <radialGradient id="leaf">
+  <stop stop-color="#ffd47a"/><stop offset=".65" stop-color="#dc7836"/><stop offset="1" stop-color="#8c3828"/>
+ </radialGradient>
+ <linearGradient id="wood" x2="0" y2="1">
+  <stop stop-color="#d69a60"/><stop offset="1" stop-color="#68402e"/>
+ </linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="18"/></filter>
+
+ <symbol id="mapleLeaf" viewBox="-48 -48 96 96">
+  <path d="M0,-44 L10,-25 L29,-36 L25,-15 L45,-9
+  L27,4 L36,27 L12,19 L0,45 L-12,19
+  L-36,27 L-27,4 L-45,-9 L-25,-15
+  L-29,-36 L-10,-25 Z"/>
+  <path d="M0,-35 L0,37 M0,-5 L-29,-22 M0,5 L29,-22
+  M0,17 L-24,22 M0,17 L24,22"
+  fill="none" stroke="#713824" stroke-width="2.2"
+  opacity=".38"/>
+ </symbol>
+
+</defs>
+<rect width="1000" height="850" fill="url(#sky)"/>
+<circle cx="760" cy="250" r="145" fill="#ffd89a" opacity=".38" filter="url(#glow)"/>
+<path d="M0 650 Q250 590 500 650 T1000 630 V850 H0Z" fill="#382d29" opacity=".55"/>
+<!-- tree trunk -->
+<path d="M470 720 Q490 560 450 410 Q400 300 290 215 Q410 260 465 350 Q450 220 425 120 Q505 245 510 355 Q580 245 710 170 Q600 300 545 415 Q550 560 580 720Z" fill="url(#trunk)"/>
+<path d="M490 700 Q515 520 485 365 M470 410 Q370 300 320 260 M515 380 Q610 270 680 220" fill="none" stroke="#b77a4d" stroke-width="15" opacity=".5"/>
+
+<!-- NATURAL LAYERED MAPLE LEAF CANOPY -->
+<g stroke-linejoin="round">
+ <use href="#mapleLeaf" transform="translate(245 225) rotate(-22) scale(1.65)" fill="#b94e26"/>
+ <use href="#mapleLeaf" transform="translate(315 165) rotate(18) scale(1.75)" fill="#d87927"/>
+ <use href="#mapleLeaf" transform="translate(405 130) rotate(-12) scale(1.8)" fill="#e69a32"/>
+ <use href="#mapleLeaf" transform="translate(510 145) rotate(25) scale(1.9)" fill="#d66a25"/>
+ <use href="#mapleLeaf" transform="translate(625 145) rotate(-18) scale(1.8)" fill="#bd4825"/>
+ <use href="#mapleLeaf" transform="translate(720 195) rotate(15) scale(1.7)" fill="#e69a32"/>
+ <use href="#mapleLeaf" transform="translate(790 270) rotate(-25) scale(1.65)" fill="#b94e26"/>
+
+ <use href="#mapleLeaf" transform="translate(195 300) rotate(20) scale(1.6)" fill="#d66a25"/>
+ <use href="#mapleLeaf" transform="translate(290 280) rotate(-15) scale(1.7)" fill="#e69a32"/>
+ <use href="#mapleLeaf" transform="translate(390 235) rotate(30) scale(1.8)" fill="#a83c24"/>
+ <use href="#mapleLeaf" transform="translate(500 235) rotate(-20) scale(1.8)" fill="#e7a33a"/>
+ <use href="#mapleLeaf" transform="translate(610 245) rotate(15) scale(1.75)" fill="#d87927"/>
+ <use href="#mapleLeaf" transform="translate(710 310) rotate(-30) scale(1.7)" fill="#bd4825"/>
+
+ <use href="#mapleLeaf" transform="translate(255 375) rotate(-10) scale(1.4)" fill="#bd5727"/>
+ <use href="#mapleLeaf" transform="translate(350 340) rotate(20) scale(1.5)" fill="#d87927"/>
+ <use href="#mapleLeaf" transform="translate(455 320) rotate(-25) scale(1.55)" fill="#e69a32"/>
+ <use href="#mapleLeaf" transform="translate(560 330) rotate(15) scale(1.55)" fill="#b94e26"/>
+ <use href="#mapleLeaf" transform="translate(655 370) rotate(-18) scale(1.45)" fill="#d66a25"/>
+
+ <use href="#mapleLeaf" transform="translate(335 190) rotate(40) scale(1.15)" fill="#f4bd52"/>
+ <use href="#mapleLeaf" transform="translate(470 175) rotate(-35) scale(1.2)" fill="#f4bd52"/>
+ <use href="#mapleLeaf" transform="translate(580 185) rotate(30) scale(1.15)" fill="#f4bd52"/>
+ <use href="#mapleLeaf" transform="translate(680 245) rotate(-40) scale(1.1)" fill="#f4bd52"/>
+ <use href="#mapleLeaf" transform="translate(420 285) rotate(35) scale(1.1)" fill="#f4bd52"/>
+</g>
+
+<!-- fallen leaves -->
+<g fill="#e8a34e" opacity=".85">
+ <path d="M110 690q30-40 55 0q-28 35-55 0z"/>
+ <path d="M760 690q30-40 55 0q-28 35-55 0z"/>
+ <path d="M300 745q30-40 55 0q-28 35-55 0z"/>
+ <path d="M650 755q30-40 55 0q-28 35-55 0z"/>
+</g>
+<!-- romantic park bench -->
+<g transform="translate(0 0)" stroke="#4a2d24" stroke-width="13" stroke-linejoin="round">
+ <path d="M315 560 L685 560 L685 635 L315 635Z" fill="url(#wood)"/>
+ <path d="M325 520 L675 520 L675 550 L325 550Z" fill="#b97849"/>
+ <path d="M325 565 L675 565 M325 600 L675 600" fill="none" stroke="#e2ad73" stroke-width="7"/>
+ <path d="M355 635 L335 745 M645 635 L665 745" fill="none" stroke="#57372a" stroke-width="19"/>
+ <path d="M320 505 L320 470 Q500 420 680 470 L680 505" fill="none" stroke="#70452f" stroke-width="20"/>
+ <path d="M350 470 Q500 435 650 470" fill="none" stroke="#d69a60" stroke-width="8"/>
+</g>
+<path d="M0 760 Q250 720 500 770 T1000 750 V850 H0Z" fill="#201f20" opacity=".35"/>
+</svg>

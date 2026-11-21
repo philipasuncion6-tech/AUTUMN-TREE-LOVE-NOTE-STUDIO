@@ -1,0 +1,381 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MY CYBER LAB - Autumn Leaves Message Studio</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;padding:20px;
+ font-family:Georgia,serif;color:#fff4df;
+ background:linear-gradient(145deg,#21140d,#60351c,#a65d24);
+ overflow-x:hidden
+}
+.container{max-width:850px;margin:auto;text-align:center}
+h1{color:#ffc56b;text-shadow:0 0 15px #d97824;font-size:2rem}
+h2{color:#ffe0a3;letter-spacing:2px}
+.intro{color:#f5d4a2}
+.panel{
+ background:rgba(35,18,9,.78);border:1px solid #c47a36;
+ border-radius:20px;padding:20px;margin:18px 0;
+ box-shadow:0 8px 25px #160b08
+}
+input,select,textarea{
+ width:100%;padding:13px;margin:8px 0;border-radius:10px;
+ border:1px solid #d99a52;background:#fff4df;color:#422411;
+ font-size:16px
+}
+button{
+ border:0;border-radius:25px;padding:12px 18px;margin:5px;
+ background:linear-gradient(120deg,#f2bd65,#a94d1d);
+ color:#291408;font-weight:bold;font-size:15px;cursor:pointer
+}
+button:hover{filter:brightness(1.15)}
+#leafGarden{
+ min-height:250px;position:relative;overflow:hidden;
+ display:flex;flex-direction:column;align-items:center;
+ justify-content:center;gap:12px;padding:35px 10px
+}
+
+
+
+
+.leaf-line{
+ position:relative;
+ isolation:isolate;
+ width:min(100%,430px);
+ aspect-ratio:1 / 1;
+ height:auto;
+ min-height:0;
+ margin:12px auto;
+ padding:0;
+ box-sizing:border-box;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ animation:leafAppear 1s ease both;
+}
+.heart-art{
+ position:absolute;
+ inset:0;
+ width:100%;
+ height:100%;
+ z-index:0;
+ pointer-events:none;
+}
+.heart-writing{
+ position:relative;
+ z-index:2;
+ width:65%;
+ height:43%;
+ margin-top:5%;
+ padding:12px 8px;
+ box-sizing:border-box;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ overflow-y:auto;
+ outline:none;
+ white-space:pre-wrap;
+ overflow-wrap:anywhere;
+ text-align:center;
+ color:#fff8e9;
+ font-family:Georgia,serif;
+ font-size:clamp(14px,3.5vw,19px);
+ font-weight:bold;
+ font-style:italic;
+ line-height:1.4;
+ text-shadow:0 2px 5px #650b20;
+ cursor:text;
+}
+.heart-writing:focus{
+ text-shadow:0 2px 6px #650b20,0 0 8px #ffe2a0;
+}
+
+@keyframes leafAppear{
+ from{opacity:0;transform:translateY(25px) rotate(-8deg) scale(.8)}
+ to{opacity:1;transform:translateY(0) rotate(0) scale(1)}
+}
+@keyframes appear{
+ from{opacity:0;transform:translateY(18px)}
+ to{opacity:1;transform:translateY(0)}
+}
+.falling{
+ position:fixed;top:-40px;z-index:5;pointer-events:none;
+ animation:fall linear infinite
+}
+@keyframes fall{
+ 0%{transform:translateY(-30px) rotate(0deg);opacity:0}
+ 10%{opacity:1}
+ 100%{transform:translateY(110vh) rotate(540deg);opacity:0}
+}
+footer{padding:25px;color:#f6c77f;font-style:italic}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/umd/index.js"></script>
+</head>
+<body>
+<div class="container">
+<h1>🍁 MY CYBER LAB 🍁</h1>
+<h2>AUTUMN LEAVES MESSAGE STUDIO</h2>
+<p class="intro">Let your heartfelt message bloom among the autumn leaves.</p>
+
+<div class="panel">
+<input id="recipient" placeholder="Who is your message for?">
+<select id="style">
+<option value="good">Good Morning</option>
+<option value="love">Love & Friendship</option>
+<option value="inspire">Inspiration</option>
+<option value="birthday">Birthday Wishes</option>
+<option value="thanks">Thank You</option>
+<option value="goodnight">Good Night</option>
+</select>
+<textarea id="custom" rows="3" placeholder="Write your own heartfelt message..."></textarea>
+<button onclick="makeMessage()">🍁 Create Message</button>
+</div>
+
+<div class="panel">
+<h2>🍂 YOUR AUTUMN MESSAGE 🍂</h2>
+<div id="leafGarden">
+<div class="leaf-line" contenteditable="true" role="textbox" aria-label="Write your message on the autumn leaf" spellcheck="true">Your beautiful message will appear here.</div>
+</div>
+<textarea id="message" rows="5" hidden></textarea>
+<button onclick="copyMessage()">📋 Copy</button>
+<button onclick="shareMessage()">💌 Share</button>
+<button onclick="chooseAutumnVideo()">💌 SEND TO SPARKLE STUDIO</button>
+<input id="autumnVideoPicker" type="file" accept="video/*,.mp4" hidden>
+<button id="shareSelectedVideo" onclick="shareSelectedVideo()" style="display:none;">📤 SHARE VIDEO</button>
+<button onclick="createAutumnVideo()">🎬 CREATE AUTUMN VIDEO</button>
+<button onclick="makeMessage()">✨ Create Again</button>
+<p id="status">Let your words fall like beautiful autumn leaves.</p>
+</div>
+<footer>Created with ❤️ by Asuncion</footer>
+</div>
+
+<script>
+const greetings={
+good:"Good morning! May your day be filled with peace, happiness, and beautiful blessings.",
+love:"Like autumn leaves, may our friendship bring warmth and beauty to every season.",
+inspire:"Every falling leaf reminds us that change can be beautiful. Keep growing and believing.",
+birthday:"Wishing you a wonderful birthday filled with love, laughter, and countless blessings!",
+thanks:"Thank you for being a beautiful part of life's journey. Your kindness means so much.",
+goodnight:"May the quiet beauty of the night bring you peace, sweet dreams, and a fresh tomorrow."
+};
+
+function makeMessage(){
+ const name=document.getElementById("recipient").value.trim();
+ const custom=document.getElementById("custom").value.trim();
+ const style=document.getElementById("style").value;
+ const greeting=greetings[style];
+ const result=(name?"Dear "+name+",\n\n":"")+ (custom||greeting);
+ document.getElementById("message").value=result;
+ displayLeaves(result);
+ document.getElementById("status").textContent="🍁 Your autumn message is ready!";
+}
+
+
+
+function displayLeaves(value){
+ const garden=document.getElementById("leafGarden");
+ garden.innerHTML="";
+
+ const leaf=document.createElement("div");
+ leaf.className="leaf-line";
+
+ leaf.innerHTML=`
+ <svg class="heart-art" viewBox="0 0 500 500"
+      xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+   <linearGradient id="bearFur" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#d99a58"/>
+    <stop offset="1" stop-color="#75401f"/>
+   </linearGradient>
+   <linearGradient id="heartRed" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#ff8290"/>
+    <stop offset=".45" stop-color="#e52d48"/>
+    <stop offset="1" stop-color="#9e102d"/>
+   </linearGradient>
+  </defs>
+
+  <!-- Teddy bear body and head -->
+  <ellipse cx="250" cy="390" rx="125" ry="105"
+           fill="url(#bearFur)" stroke="#60351e" stroke-width="7"/>
+  <circle cx="165" cy="75" r="48" fill="url(#bearFur)"
+          stroke="#60351e" stroke-width="7"/>
+  <circle cx="335" cy="75" r="48" fill="url(#bearFur)"
+          stroke="#60351e" stroke-width="7"/>
+  <circle cx="250" cy="125" r="105" fill="url(#bearFur)"
+          stroke="#60351e" stroke-width="7"/>
+  <circle cx="165" cy="75" r="23" fill="#edbd91"/>
+  <circle cx="335" cy="75" r="23" fill="#edbd91"/>
+  <ellipse cx="250" cy="155" rx="48" ry="36" fill="#f1c99f"/>
+  <circle cx="215" cy="118" r="10" fill="#28180f"/>
+  <circle cx="285" cy="118" r="10" fill="#28180f"/>
+  <ellipse cx="250" cy="145" rx="13" ry="10" fill="#4b241b"/>
+  <path d="M250 155 Q238 175 225 160 M250 155 Q262 175 275 160"
+        fill="none" stroke="#633321" stroke-width="5"
+        stroke-linecap="round"/>
+
+  <!-- Large heart held by the bear -->
+  <path d="M250 445
+   C210 408 65 310 65 220
+   C65 120 190 105 250 190
+   C310 105 435 120 435 220
+   C435 310 290 408 250 445 Z"
+   fill="url(#heartRed)" stroke="#8f172b" stroke-width="9"/>
+
+  <path d="M105 220 C110 160 170 145 210 170"
+        fill="none" stroke="#ffbdc5" stroke-width="9"
+        stroke-linecap="round" opacity=".7"/>
+
+  <!-- Teddy paws holding the heart -->
+  <ellipse cx="103" cy="295" rx="48" ry="38"
+           transform="rotate(-28 103 295)"
+           fill="url(#bearFur)" stroke="#60351e" stroke-width="6"/>
+  <ellipse cx="397" cy="295" rx="48" ry="38"
+           transform="rotate(28 397 295)"
+           fill="url(#bearFur)" stroke="#60351e" stroke-width="6"/>
+  <g fill="#edbd91">
+   <circle cx="91" cy="290" r="8"/>
+   <circle cx="111" cy="280" r="8"/>
+   <circle cx="389" cy="280" r="8"/>
+   <circle cx="409" cy="290" r="8"/>
+  </g>
+ </svg>
+
+ <div class="heart-writing" contenteditable="true"
+  role="textbox" aria-label="Write your message inside the teddy bear heart"
+  spellcheck="true"></div>
+ `;
+
+ const writing=leaf.querySelector(".heart-writing");
+ writing.textContent=value;
+
+ writing.addEventListener("input",()=>{
+  document.getElementById("message").value=writing.innerText;
+ });
+
+ garden.appendChild(leaf);
+ document.getElementById("message").value=value;
+}
+
+async function copyMessage(){
+ const value=document.getElementById("message").value;
+ if(!value){document.getElementById("status").textContent="Create a message first.";return;}
+ try{
+  await navigator.clipboard.writeText(value);
+  document.getElementById("status").textContent="Copied successfully! 🍁";
+ }catch(e){
+  document.getElementById("message").select();
+  document.execCommand("copy");
+  document.getElementById("status").textContent="Message selected for copying.";
+ }
+}
+
+async function shareMessage(){
+ const value=document.getElementById("message").value;
+ if(!value){document.getElementById("status").textContent="Create a message first.";return;}
+ if(navigator.share){
+  try{await navigator.share({title:"Autumn Message",text:value});}
+  catch(e){}
+ }else{
+  copyMessage();
+ }
+}
+
+
+function chooseAutumnVideo(){
+ const picker=document.getElementById("autumnVideoPicker");
+ picker.value="";
+ picker.click();
+}
+
+let selectedAutumnVideo = null;
+
+document.getElementById("autumnVideoPicker").addEventListener("change", function(){
+ const file=this.files && this.files[0];
+ if(!file) return;
+
+ selectedAutumnVideo=file;
+
+ const btn=document.getElementById("shareSelectedVideo");
+ btn.style.display="inline-block";
+
+ document.getElementById("status").textContent=
+  "🍁 Video selected: "+file.name+" — press SHARE VIDEO.";
+});
+
+async function shareSelectedVideo(){
+ const file=selectedAutumnVideo;
+ const status=document.getElementById("status");
+
+ if(!file){
+  status.textContent="Select a video first.";
+  return;
+ }
+
+ if(!navigator.share){
+  status.textContent="Video sharing is not supported in this browser.";
+  return;
+ }
+
+ try{
+  if(navigator.canShare && !navigator.canShare({files:[file]})){
+   status.textContent="This video cannot be shared directly from Chrome.";
+   return;
+  }
+
+  await navigator.share({
+   files:[file],
+   title:"Autumn Video",
+   text:"🍁 My Autumn Message"
+  });
+
+  status.textContent="🍁 Video sharing opened!";
+ }catch(e){
+  if(e.name==="AbortError"){
+   status.textContent="Video sharing cancelled.";
+  }else{
+   status.textContent="❌ Video share error: "+(e.name||"Unknown")+" - "+(e.message||"No details");
+  }
+ }
+}
+
+async function sendToSparkle(){
+ const value=document.getElementById("message").value.trim();
+ if(!value){
+  document.getElementById("status").textContent="Create a message first.";
+  return;
+ }
+ window.open("https://m.me/sparkle.studio.2026","_blank");
+ try{
+  await navigator.clipboard.writeText(value);
+  document.getElementById("status").textContent="✅ Message copied! Paste it in Sparkle Studio Messenger.";
+ }catch(e){
+  document.getElementById("status").textContent="Open Messenger and copy your message using Copy.";
+ }
+}
+
+function fallingLeaves(){
+ const symbols=["🍁","🍂","🍃"];
+ const leaf=document.createElement("div");
+ leaf.className="falling";
+ leaf.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+ leaf.style.left=Math.random()*100+"vw";
+ leaf.style.fontSize=(18+Math.random()*20)+"px";
+ leaf.style.animationDuration=(7+Math.random()*8)+"s";
+ document.body.appendChild(leaf);
+ setTimeout(()=>leaf.remove(),16000);
+}
+setInterval(fallingLeaves,650);
+</script>
+  <script src="./cyber-video.js?v=20261126"
+onload="document.getElementById('status').textContent='✅ VIDEO SCRIPT LOADED!'"
+onerror="document.getElementById('status').textContent='❌ VIDEO SCRIPT FAILED TO LOAD!'"></script>
+</body>
+</html>
+
