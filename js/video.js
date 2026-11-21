@@ -291,14 +291,20 @@ async function createAutumnTreeVideo() {
 
         status.textContent = "🎬 Creating your Family Autumn MP4...";
 
-        await ffmpeg.writeFile(
-          "input.webm",
-          await fetchFile(webmBlob)
-        );
 ffmpeg.on("log", ({ message }) => {
   console.log("[FFmpeg]", message);
+
+  if (message && message.trim()) {
+    status.textContent = "FFmpeg: " + message;
+  }
 });
-        await ffmpeg.exec([
+
+await ffmpeg.writeFile(
+  "input.webm",
+  await fetchFile(webmBlob)
+);
+
+await ffmpeg.exec([
           "-i", "input.webm",
           "-c:v", "mpeg4",
           "-q:v", "5",
