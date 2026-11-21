@@ -274,6 +274,11 @@ async function createAutumnTreeVideo() {
         const ffmpeg = new FFmpeg();
 
         ffmpeg.on("progress", ({progress}) => {
+  if (!Number.isFinite(progress) || progress < 0) return;
+
+  const percent = Math.min(99, Math.round(progress * 100));
+  status.textContent = "🎬 MP4 conversion: " + percent + "%";
+});
           status.textContent =
             "🎬 MP4 conversion: " + Math.round(progress * 100) + "%";
         });
