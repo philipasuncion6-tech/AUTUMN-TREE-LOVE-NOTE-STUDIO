@@ -279,9 +279,7 @@ async function createAutumnTreeVideo() {
   const percent = Math.min(99, Math.round(progress * 100));
   status.textContent = "🎬 MP4 conversion: " + percent + "%";
 });
-          status.textContent =
-            "🎬 MP4 conversion: " + Math.round(progress * 100) + "%";
-        });
+
 
         const base = new URL("assets/", window.location.href);
 
