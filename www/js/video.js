@@ -272,6 +272,12 @@ async function createAutumnTreeVideo() {
         const {FFmpeg} = window.FFmpegWASM;
         const {fetchFile} = window.FFmpegUtil;
         const ffmpeg = new FFmpeg();
+        const ffmpegLogs = [];
+
+        ffmpeg.on("log", ({message}) => {
+          ffmpegLogs.push(message);
+          console.log("[FFmpeg]", message);
+        });
 
         ffmpeg.on("progress", ({progress}) => {
           const safeProgress = Number.isFinite(progress)
@@ -284,20 +290,26 @@ async function createAutumnTreeVideo() {
 
         const base = new URL("assets/", window.location.href);
 
+        status.textContent = "⏳ Loading local FFmpeg core...";
+
         await ffmpeg.load({
           coreURL: new URL("ffmpeg-core-esm.js", base).href,
           wasmURL: new URL("ffmpeg-core-esm.wasm", base).href,
           classWorkerURL: new URL("814.ffmpeg.js", base).href
         });
 
-        status.textContent = "🎬 Creating your Family Autumn MP4...";
+        status.textContent = "✅ FFmpeg loaded. Preparing video...";
+
+        status.textContent = "⏳ Preparing recorded WebM...";
 
         await ffmpeg.writeFile(
           "input.webm",
           await fetchFile(webmBlob)
         );
 
-        await ffmpeg.exec([
+        status.textContent = "🎬 Starting MP4 conversion...";
+
+        const exitCode = await ffmpeg.exec([
           "-i", "input.webm",
           "-c:v", "mpeg4",
           "-q:v", "5",
@@ -306,6 +318,15 @@ async function createAutumnTreeVideo() {
           "-an",
           "Autumn-Tree-Family-Love.mp4"
         ]);
+
+        if (exitCode !== 0) {
+          throw new Error(
+            "FFmpeg exit code " + exitCode + ". Logs: " +
+            ffmpegLogs.slice(-5).join(" | ")
+          );
+        }
+
+        status.textContent = "📦 MP4 created. Preparing download...";
 
         const data = await ffmpeg.readFile(
           "Autumn-Tree-Family-Love.mp4"
