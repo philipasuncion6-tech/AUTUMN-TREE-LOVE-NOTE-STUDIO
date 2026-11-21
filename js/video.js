@@ -295,7 +295,9 @@ async function createAutumnTreeVideo() {
           "input.webm",
           await fetchFile(webmBlob)
         );
-
+ffmpeg.on("log", ({ message }) => {
+  console.log("[FFmpeg]", message);
+});
         await ffmpeg.exec([
           "-i", "input.webm",
           "-c:v", "mpeg4",
