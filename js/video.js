@@ -304,6 +304,8 @@ await ffmpeg.writeFile(
   await fetchFile(webmBlob)
 );
 
+status.textContent = "⏳ FFmpeg conversion started...";
+
 await ffmpeg.exec([
           "-i", "input.webm",
           "-c:v", "mpeg4",
