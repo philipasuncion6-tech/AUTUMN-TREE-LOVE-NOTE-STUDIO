@@ -274,9 +274,12 @@ async function createAutumnTreeVideo() {
         const ffmpeg = new FFmpeg();
 
         ffmpeg.on("progress", ({progress}) => {
-          status.textContent =
-            "🎬 MP4 conversion: " + Math.round(progress * 100) + "%";
-        });
+  if (!Number.isFinite(progress) || progress < 0) return;
+
+  const percent = Math.min(99, Math.round(progress * 100));
+  status.textContent = "🎬 MP4 conversion: " + percent + "%";
+});
+
 
         const base = new URL("assets/", window.location.href);
 
@@ -286,17 +289,31 @@ async function createAutumnTreeVideo() {
           classWorkerURL: new URL("814.ffmpeg.js", base).href
         });
 
-        status.textContent = "🎬 Creating your Family Autumn MP4...";
+        status.textContent = "✅ FFmpeg loaded. Starting conversion setup...";
 
-        await ffmpeg.writeFile(
-          "input.webm",
-          await fetchFile(webmBlob)
-        );
+ffmpeg.on("log", ({ message }) => {
+  console.log("[FFmpeg]", message);
 
-        await ffmpeg.exec([
+  if (message && message.trim()) {
+    status.textContent = "FFmpeg: " + message;
+  }
+});
+
+status.textContent = "⏳ Writing WebM file...";
+
+await ffmpeg.writeFile(
+  "input.webm",
+  await fetchFile(webmBlob)
+);
+
+status.textContent = "⏳ FFmpeg conversion started...";
+
+await ffmpeg.exec([
           "-i", "input.webm",
           "-c:v", "mpeg4",
           "-q:v", "5",
+          "-threads", "1",
+          "-r", "30",
           "-pix_fmt", "yuv420p",
           "-movflags", "+faststart",
           "-an",
