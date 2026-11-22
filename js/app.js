@@ -105,7 +105,8 @@ function applyTheme(theme, save = true) {
   if (!particleSets[theme]) return;
   activeTheme = theme;
   document.body.classList.remove("theme-autumn","theme-winter","theme-flowers","theme-garden");
-  document.body.classList.add("theme-" + theme);\n  document.body.dataset.activeTheme = theme;
+  document.body.classList.add("theme-" + theme);
+  document.body.dataset.activeTheme = theme;
   const copy = sceneCopy[theme];
   $("sceneEyebrow").textContent = copy.eyebrow;
   $("sceneTitle").textContent = copy.title;
