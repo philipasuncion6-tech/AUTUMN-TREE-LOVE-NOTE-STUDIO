@@ -66,7 +66,7 @@
     <div class="family-signature">Together is a beautiful place to be. ❤️</div>
   </div>
   <figure class="family-photo">
-    <img src="assets/mother-daughter-autumn.jpg"
+    <img id="themeArtworkImage" src="assets/mother-daughter-autumn.jpg"
          alt="A mother and daughter sharing a warm autumn moment beneath a maple tree">
     <figcaption>A precious moment to treasure forever</figcaption>
   </figure>
@@ -124,13 +124,13 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/umd/index.js"></script>
-<script src="js/app.js?v=themes1"></script>
-<script src="js/video.js?v=themes2"></script>
+<script src="js/app.js?v=sceneimages1"></script>
+<script src="js/video.js?v=sceneimages1"></script>
 
 <script>
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js")
+    navigator.serviceWorker.register("./sw.js?v=8")
       .catch(error => console.error("PWA registration failed:", error));
   });
 }
