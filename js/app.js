@@ -122,6 +122,9 @@ function applyTheme(theme, save = true) {
     button.setAttribute("aria-pressed", String(selected));
   });
   $("themeStatus").textContent = document.querySelector('[data-theme="' + theme + '"] strong').textContent + " selected";
+  // Keep the message/preview flow identical for every selected theme.
+  // The default Autumn Love flow remains the master behavior.
+  updatePreview();
   if (save) {
     try { localStorage.setItem("autumnTreeTheme", theme); } catch (error) {}
   }
