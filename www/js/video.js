@@ -38,17 +38,19 @@ async function createAutumnTreeVideo() {
       );
     });
 
-    const leaves = Array.from({length: 42}, () => ({
+    // Falling leaves — same visual style as MY-CYBER-LAB:
+    // real autumn leaf symbols plus fresh green leaves.
+    const leafSymbols = ["🍁", "🍂", "🍃"];
+
+    const leaves = Array.from({length: 38}, () => ({
       x: Math.random() * 540,
       y: Math.random() * 960,
-      speed: 35 + Math.random() * 75,
-      size: 9 + Math.random() * 13,
+      size: 10 + Math.random() * 15,
+      speed: 30 + Math.random() * 60,
       angle: Math.random() * Math.PI * 2,
-      spin: (Math.random() - 0.5) * 2,
-      drift: 12 + Math.random() * 28,
-      color: ["#e83c19", "#ff8b20", "#f6c34c", "#b83b21"][
-        Math.floor(Math.random() * 4)
-      ]
+      spin: (Math.random() - 0.5) * 1.8,
+      drift: 18 + Math.random() * 24,
+      symbol: leafSymbols[Math.floor(Math.random() * leafSymbols.length)]
     }));
 
     function roundedRect(x, y, w, h, r) {
@@ -56,35 +58,15 @@ async function createAutumnTreeVideo() {
       ctx.roundRect(x, y, w, h, r);
     }
 
-    function drawMapleLeaf(x, y, size, angle, color) {
+    function drawFallingLeaf(x, y, size, symbol, angle) {
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(angle);
-      ctx.scale(size / 24, size / 24);
-      ctx.fillStyle = color;
-      ctx.strokeStyle = "rgba(91,35,15,.45)";
-      ctx.lineWidth = 1.2;
-
-      ctx.beginPath();
-      ctx.moveTo(0, -22);
-      ctx.lineTo(5, -11);
-      ctx.lineTo(15, -17);
-      ctx.lineTo(12, -5);
-      ctx.lineTo(23, 0);
-      ctx.lineTo(11, 5);
-      ctx.lineTo(15, 17);
-      ctx.lineTo(4, 12);
-      ctx.lineTo(0, 23);
-      ctx.lineTo(-4, 12);
-      ctx.lineTo(-15, 17);
-      ctx.lineTo(-11, 5);
-      ctx.lineTo(-23, 0);
-      ctx.lineTo(-12, -5);
-      ctx.lineTo(-15, -17);
-      ctx.lineTo(-5, -11);
-      ctx.closePath();
-      ctx.fill();
-      ctx.stroke();
+      ctx.font =
+        String(size * 1.7) + 'px "Noto Color Emoji","Apple Color Emoji",sans-serif';
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(symbol, 0, 0);
       ctx.restore();
     }
 
@@ -151,17 +133,16 @@ async function createAutumnTreeVideo() {
       // Animated foreground maple leaves
       leaves.forEach(leaf => {
         leaf.y += leaf.speed / 30;
-        leaf.x += Math.sin(seconds * 1.3 + leaf.angle) *
-          leaf.drift / 30;
+        leaf.x += Math.sin(seconds + leaf.angle) * leaf.drift / 30;
         leaf.angle += leaf.spin / 30;
 
         if (leaf.y > 980) {
-          leaf.y = -25;
+          leaf.y = -30;
           leaf.x = Math.random() * 540;
         }
 
-        drawMapleLeaf(
-          leaf.x, leaf.y, leaf.size, leaf.angle, leaf.color
+        drawFallingLeaf(
+          leaf.x, leaf.y, leaf.size, leaf.symbol, leaf.angle
         );
       });
 
