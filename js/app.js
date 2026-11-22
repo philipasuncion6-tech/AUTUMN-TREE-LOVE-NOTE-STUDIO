@@ -128,8 +128,30 @@ function applyTheme(theme, save = true) {
   resetParticles();
 }
 document.querySelectorAll(".theme-card").forEach(button => {
-  button.addEventListener("click", () => applyTheme(button.dataset.theme));
+  button.addEventListener("click", () => {
+    applyTheme(button.dataset.theme);
+    const messageSection = $("studio");
+    if (messageSection) {
+      setTimeout(() => {
+        messageSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        const recipient = $("recipient");
+        if (recipient) recipient.focus({ preventScroll: true });
+      }, 120);
+    }
+  });
 });
+
+const createMessageBtn = $("createMessageBtn");
+if (createMessageBtn) {
+  createMessageBtn.addEventListener("click", () => {
+    const messageSection = $("studio");
+    if (messageSection) {
+      messageSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      const recipient = $("recipient");
+      if (recipient) setTimeout(() => recipient.focus({ preventScroll: true }), 350);
+    }
+  });
+}
 function animateParticles() {
   ctx.clearRect(0, 0, innerWidth, innerHeight);
   for (const particle of particles) {
