@@ -57,48 +57,89 @@ $("downloadBtn").addEventListener("click", () => {
 
 const canvas = $("autumnLeaves");
 const ctx = canvas.getContext("2d");
-let leaves = [];
-const symbols = ["🍁", "🍂", "🍃"];
-
+let particles = [];
+let activeTheme = "autumn";
+const particleSets = {
+  autumn: ["🍁","🍂","🍃"],
+  winter: ["❄️","❅","❆"],
+  flowers: ["🌸","🌷","🌼","🌺"],
+  garden: ["🌹","💗","🌿","🌸"]
+};
+const sceneCopy = {
+  autumn: {eyebrow:"AN AUTUMN MOMENT",title:"Meet Me Beneath the Tree",description:"Where golden leaves fall and beautiful memories begin.",art:""},
+  winter: {eyebrow:"A WINTER WISH",title:"A Cozy Moment in the Snow",description:"Let gentle snowflakes make your message feel magical.",art:"❄️ 🐻 ❄️"},
+  flowers: {eyebrow:"A GARDEN IN BLOOM",title:"Let Your Love Blossom",description:"Surround your heartfelt words with beautiful flowers.",art:"🌷 🌸 🌼"},
+  garden: {eyebrow:"A ROMANTIC ESCAPE",title:"A Rose Garden for Two",description:"A lovely place for messages filled with warmth and affection.",art:"🌹 💗 🌿"}
+};
 function resize() {
-  canvas.width = window.innerWidth * devicePixelRatio;
-  canvas.height = window.innerHeight * devicePixelRatio;
-  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+  const ratio = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = window.innerWidth * ratio;
+  canvas.height = window.innerHeight * ratio;
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 }
-
-function newLeaf(randomY = true) {
+function newParticle(randomY = true) {
+  const symbols = particleSets[activeTheme];
   return {
     x: Math.random() * innerWidth,
-    y: randomY ? Math.random() * innerHeight : -30,
-    size: 14 + Math.random() * 17,
-    speed: .7 + Math.random() * 1.5,
+    y: randomY ? Math.random() * innerHeight : -35,
+    size: 13 + Math.random() * 18,
+    speed: activeTheme === "winter" ? .45 + Math.random() * 1.1 : .55 + Math.random() * 1.25,
     drift: Math.random() * 1.2 - .6,
     angle: Math.random() * 6.28,
     spin: (Math.random() - .5) * .025,
     symbol: symbols[Math.floor(Math.random() * symbols.length)]
   };
 }
-
-function animateLeaves() {
-  ctx.clearRect(0, 0, innerWidth, innerHeight);
-  for (const leaf of leaves) {
-    leaf.y += leaf.speed;
-    leaf.x += Math.sin(leaf.y * .012) * .7 + leaf.drift;
-    leaf.angle += leaf.spin;
-    ctx.save();
-    ctx.translate(leaf.x, leaf.y);
-    ctx.rotate(leaf.angle);
-    ctx.globalAlpha = .85;
-    ctx.font = `${leaf.size}px serif`;
-    ctx.fillText(leaf.symbol, 0, 0);
-    ctx.restore();
-    if (leaf.y > innerHeight + 30) Object.assign(leaf, newLeaf(false));
-  }
-  requestAnimationFrame(animateLeaves);
+function resetParticles() {
+  particles = [];
+  const count = window.innerWidth < 600 ? 15 : 24;
+  for (let i = 0; i < count; i++) particles.push(newParticle());
 }
-
+function applyTheme(theme, save = true) {
+  if (!particleSets[theme]) return;
+  activeTheme = theme;
+  document.body.classList.remove("theme-autumn","theme-winter","theme-flowers","theme-garden");
+  document.body.classList.add("theme-" + theme);
+  const copy = sceneCopy[theme];
+  $("sceneEyebrow").textContent = copy.eyebrow;
+  $("sceneTitle").textContent = copy.title;
+  $("sceneDescription").textContent = copy.description;
+  $("scene").dataset.sceneArt = copy.art;
+  document.querySelectorAll(".theme-card").forEach(button => {
+    const selected = button.dataset.theme === theme;
+    button.classList.toggle("active", selected);
+    button.setAttribute("aria-pressed", String(selected));
+  });
+  $("themeStatus").textContent = document.querySelector('[data-theme="' + theme + '"] strong').textContent + " selected";
+  if (save) {
+    try { localStorage.setItem("autumnTreeTheme", theme); } catch (error) {}
+  }
+  resetParticles();
+}
+document.querySelectorAll(".theme-card").forEach(button => {
+  button.addEventListener("click", () => applyTheme(button.dataset.theme));
+});
+function animateParticles() {
+  ctx.clearRect(0, 0, innerWidth, innerHeight);
+  for (const particle of particles) {
+    particle.y += particle.speed;
+    particle.x += Math.sin(particle.y * .012) * .7 + particle.drift;
+    particle.angle += particle.spin;
+    ctx.save();
+    ctx.translate(particle.x, particle.y);
+    ctx.rotate(particle.angle);
+    ctx.globalAlpha = activeTheme === "winter" ? .78 : .86;
+    ctx.font = particle.size + 'px "Noto Color Emoji","Apple Color Emoji",sans-serif';
+    ctx.fillText(particle.symbol, 0, 0);
+    ctx.restore();
+    if (particle.y > innerHeight + 35) Object.assign(particle, newParticle(false));
+  }
+  requestAnimationFrame(animateParticles);
+}
 window.addEventListener("resize", resize);
 resize();
-for (let i = 0; i < 22; i++) leaves.push(newLeaf());
-animateLeaves();
+let savedTheme = "autumn";
+try { savedTheme = localStorage.getItem("autumnTreeTheme") || "autumn"; } catch (error) {}
+applyTheme(particleSets[savedTheme] ? savedTheme : "autumn", false);
+animateParticles();
 updatePreview();
