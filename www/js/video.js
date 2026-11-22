@@ -24,12 +24,20 @@ async function createAutumnTreeVideo() {
   const message =
     document.getElementById("message").value.trim() ||
     "May your days be filled with warmth, love, and beautiful memories. ❤️";
+  const theme = (() => { try { return localStorage.getItem("autumnTreeTheme") || "autumn"; } catch (e) { return "autumn"; } })();
+  const themes = {
+    autumn: {label:"Autumn Love", title:"AUTUMN TREE", subtitle:"A FAMILY MOMENT", colors:["#512b24","#a44e29","#251d20"], glow:"255,190,85", particles:["🍁","🍂","🍃"], filename:"Autumn-Love-Note"},
+    winter: {label:"Winter & Snow Bear", title:"WINTER WISHES", subtitle:"A COZY SNOWY MOMENT", colors:["#102b49","#4f83b5","#14243b"], glow:"185,225,255", particles:["❄️","❅","❆"], filename:"Winter-Snow-Bear-Love-Note"},
+    flowers: {label:"Flowers Studio", title:"FLOWERS STUDIO", subtitle:"LET YOUR LOVE BLOSSOM", colors:["#54294c","#c66d91","#38233f"], glow:"255,190,220", particles:["🌷","🌸","🌼","🌺"], filename:"Flowers-Studio-Love-Note"},
+    garden: {label:"Romantic Garden", title:"ROMANTIC GARDEN", subtitle:"A ROSE GARDEN FOR TWO", colors:["#321d32","#8d3e61","#241b2c"], glow:"255,150,190", particles:["🌹","💗","🌿","🌸"], filename:"Romantic-Garden-Love-Note"}
+  };
+  const themeConfig = themes[theme] || themes.autumn;
 
   const familyImage = new Image();
   familyImage.src = "assets/mother-daughter-autumn.jpg";
 
   try {
-    status.textContent = "🍁 Preparing your Autumn Family scene...";
+    status.textContent = "Preparing your " + themeConfig.label + " video scene...";
 
     await new Promise((resolve, reject) => {
       familyImage.onload = resolve;
@@ -40,7 +48,7 @@ async function createAutumnTreeVideo() {
 
     // Falling leaves — same visual style as MY-CYBER-LAB:
     // real autumn leaf symbols plus fresh green leaves.
-    const leafSymbols = ["🍁", "🍂", "🍃"];
+    const leafSymbols = themeConfig.particles;
 
     const leaves = Array.from({length: 38}, () => ({
       x: Math.random() * 540,
@@ -94,9 +102,9 @@ async function createAutumnTreeVideo() {
 
       // Warm autumn sunset background
       const bg = ctx.createLinearGradient(0, 0, 0, 960);
-      bg.addColorStop(0, "#512b24");
-      bg.addColorStop(.48, "#a44e29");
-      bg.addColorStop(1, "#251d20");
+      bg.addColorStop(0, themeConfig.colors[0]);
+      bg.addColorStop(.48, themeConfig.colors[1]);
+      bg.addColorStop(1, themeConfig.colors[2]);
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, 540, 960);
 
@@ -104,8 +112,8 @@ async function createAutumnTreeVideo() {
       const glow = ctx.createRadialGradient(
         270, 420, 30, 270, 420, 440
       );
-      glow.addColorStop(0, "rgba(255,190,85,.35)");
-      glow.addColorStop(1, "rgba(255,190,85,0)");
+      glow.addColorStop(0, "rgba(" + themeConfig.glow + ",.35)");
+      glow.addColorStop(1, "rgba(" + themeConfig.glow + ",0)");
       ctx.fillStyle = glow;
       ctx.fillRect(0, 100, 540, 650);
 
@@ -152,10 +160,10 @@ async function createAutumnTreeVideo() {
       ctx.shadowBlur = 14;
       ctx.fillStyle = "#ffe2ad";
       ctx.font = "bold 27px Georgia";
-      ctx.fillText("AUTUMN TREE", 270, 53);
+      ctx.fillText(themeConfig.title, 270, 53);
 
       ctx.font = "italic 17px Georgia";
-      ctx.fillText("A FAMILY MOMENT", 270, 83);
+      ctx.fillText(themeConfig.subtitle, 270, 83);
       ctx.shadowBlur = 0;
 
       // Love note appears gradually during the final scene
@@ -298,15 +306,15 @@ await ffmpeg.exec([
           "-pix_fmt", "yuv420p",
           "-movflags", "+faststart",
           "-an",
-          "Autumn-Tree-Family-Love.mp4"
+          themeConfig.filename + ".mp4"
         ]);
 
         const data = await ffmpeg.readFile(
-          "Autumn-Tree-Family-Love.mp4"
+          themeConfig.filename + ".mp4"
         );
 
         const mp4Blob = new Blob([data], {type: "video/mp4"});
-        const fileName = "Autumn-Tree-Family-Love.mp4";
+        const fileName = themeConfig.filename + ".mp4";
 
         // Android APK: save the MP4 directly into the public Downloads folder.
         // Normal browser/web version keeps the standard download behavior.
@@ -364,12 +372,12 @@ await ffmpeg.exec([
           setTimeout(() => URL.revokeObjectURL(url), 60000);
 
           status.textContent =
-            "❤️ Your Autumn Tree Family MP4 is ready! Check Downloads.";
+            "❤️ Your " + themeConfig.label + " MP4 is ready! Check Downloads.";
         }
 
         try {
           await ffmpeg.deleteFile("input.webm");
-          await ffmpeg.deleteFile("Autumn-Tree-Family-Love.mp4");
+          await ffmpeg.deleteFile(themeConfig.filename + ".mp4");
           ffmpeg.terminate();
         } catch (e) {}
       } catch (error) {
@@ -399,7 +407,7 @@ await ffmpeg.exec([
     }
 
     status.textContent =
-      "🍁 Recording your 15-second Autumn Family Love Video...";
+      "Recording your 15-second " + themeConfig.label + " video...";
 
     recorder.start(250);
     requestAnimationFrame(animate);
