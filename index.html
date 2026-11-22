@@ -20,11 +20,39 @@
 </header>
 
 <main>
+
+<section class="theme-picker" aria-labelledby="themeTitle">
+  <div class="theme-heading">
+    <span class="eyebrow">CHOOSE YOUR WORLD</span>
+    <h2 id="themeTitle">Background Selection</h2>
+    <p>Four beautiful moods for every heartfelt message.</p>
+  </div>
+  <div class="theme-grid">
+    <button class="theme-card active" type="button" data-theme="autumn" aria-pressed="true">
+      <span class="theme-art autumn-art" aria-hidden="true">🍁 🍂 🍃</span>
+      <strong>Autumn Love</strong><small>Falling autumn leaves</small>
+    </button>
+    <button class="theme-card" type="button" data-theme="winter" aria-pressed="false">
+      <span class="theme-art winter-art" aria-hidden="true">❄️ 🐻 ❄️</span>
+      <strong>Winter &amp; Snow Bear</strong><small>Snowfall and cozy wishes</small>
+    </button>
+    <button class="theme-card" type="button" data-theme="flowers" aria-pressed="false">
+      <span class="theme-art flowers-art" aria-hidden="true">🌷 🌸 🌼</span>
+      <strong>Flowers Studio</strong><small>Tulips, roses and blooms</small>
+    </button>
+    <button class="theme-card" type="button" data-theme="garden" aria-pressed="false">
+      <span class="theme-art garden-art" aria-hidden="true">🌹 💗 🌿</span>
+      <strong>Romantic Garden</strong><small>Roses and glowing hearts</small>
+    </button>
+  </div>
+  <p class="theme-status" id="themeStatus" aria-live="polite">Autumn Love selected</p>
+</section>
+
 <section class="scene">
   <div class="scene-caption">
-    <span>AN AUTUMN MOMENT</span>
-    <h1>Meet Me Beneath the Tree</h1>
-    <p>Where golden leaves fall and beautiful memories begin.</p>
+    <span id="sceneEyebrow">AN AUTUMN MOMENT</span>
+    <h1 id="sceneTitle">Meet Me Beneath the Tree</h1>
+    <p id="sceneDescription">Where golden leaves fall and beautiful memories begin.</p>
   </div>
   <img class="tree-art" src="assets/autumn-tree-bench.svg" alt="A large autumn tree with a wooden park bench beneath it">
   <div class="scene-bottom">🍂 A LITTLE NOTE • A LASTING MEMORY 🍂</div>
