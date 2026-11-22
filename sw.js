@@ -1,4 +1,4 @@
-const CACHE_NAME = "autumn-tree-v7";
+const CACHE_NAME = "autumn-tree-v8";
 
 const LOCAL_FILES = [
   "./",
@@ -10,6 +10,9 @@ const LOCAL_FILES = [
   "./assets/autumn-tree-bench.svg",
   "./assets/autumn-icon.svg",
   "./assets/mother-daughter-autumn.jpg",
+  "./assets/winter-snow-bear.svg",
+  "./assets/flowers-studio.svg",
+  "./assets/romantic-garden.svg",
   "./assets/icon.png",
   "./assets/icons/icon-192.png",
   "./assets/icons/icon-512.png",
