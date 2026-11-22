@@ -113,6 +113,9 @@ function applyTheme(theme, save = true) {
   $("sceneDescription").textContent = copy.description;
   $("scene").dataset.sceneArt = copy.art;
   const artwork = themeArtwork[theme];
+  const previewSymbols = {autumn:"🍁",winter:"❄️",flowers:"🌸",garden:"🌹"};
+  const previewSymbol = $("previewSymbol");
+  if (previewSymbol) previewSymbol.textContent = previewSymbols[theme] || "❤️";
   const artworkImage = $("themeArtworkImage");
   const artworkCaption = document.querySelector(".family-photo figcaption");
   if (artworkImage && artwork) { artworkImage.src = artwork.src; artworkImage.alt = artwork.alt; }
