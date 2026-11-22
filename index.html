@@ -40,6 +40,10 @@
       <span class="theme-art flowers-art" aria-hidden="true">🌸 🌷 🌼</span>
       <strong>Flowers Studio</strong><small>Let your love blossom</small>
     </button>
+    <button class="theme-card" type="button" data-theme="garden" aria-pressed="false">
+      <span class="theme-art garden-art" aria-hidden="true">🌹 💗 🌿</span>
+      <strong>Romantic Garden</strong><small>A rose garden for two</small>
+    </button>
   </div>
   <p class="theme-status" id="themeStatus" aria-live="polite">Autumn Love selected</p>
   <button id="createMessageBtn" class="continue-message" type="button">✍️ Create Message</button>
@@ -100,11 +104,11 @@
   </div>
 
   <article class="preview">
-    <div class="preview-label">A NOTE FROM THE AUTUMN GARDEN</div>
-    <div class="preview-leaf">🍁</div>
+    <div class="preview-label">A NOTE FROM YOUR CHOSEN WORLD</div>
+    <div class="preview-leaf" id="previewSymbol">🍁</div>
     <h3>For <span id="previewTo">Someone Special</span></h3>
     <p id="previewMessage">Your beautiful message will appear here...</p>
-    <div class="preview-footer">Written beneath the autumn tree</div>
+    <div class="preview-footer">Made with love in every season</div>
   </article>
 
   <section class="video-studio">
@@ -121,13 +125,13 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/umd/index.js"></script>
-<script src="js/app.js?v=flowers1"></script>
-<script src="js/video.js?v=flowers1"></script>
+<script src="js/app.js?v=garden1"></script>
+<script src="js/video.js?v=garden1"></script>
 
 <script>
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js?v=10")
+    navigator.serviceWorker.register("./sw.js?v=11")
       .catch(error => console.error("PWA registration failed:", error));
   });
 }
