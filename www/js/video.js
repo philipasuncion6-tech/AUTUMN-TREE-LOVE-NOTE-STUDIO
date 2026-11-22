@@ -325,19 +325,66 @@ await ffmpeg.exec([
         );
 
         const mp4Blob = new Blob([data], {type: "video/mp4"});
-        const url = URL.createObjectURL(mp4Blob);
-        const a = document.createElement("a");
+        const fileName = "Autumn-Tree-Family-Love.mp4";
 
-        a.href = url;
-        a.download = "Autumn-Tree-Family-Love.mp4";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
+        // Android APK: save the MP4 directly into the public Downloads folder.
+        // Normal browser/web version keeps the standard download behavior.
+        if (
+          window.AndroidDownloader &&
+          typeof window.AndroidDownloader.saveBase64 === "function"
+        ) {
+          status.textContent = "⏳ Saving MP4 to Android Downloads...";
 
-        setTimeout(() => URL.revokeObjectURL(url), 60000);
+          const base64Data = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
 
-        status.textContent =
-          "❤️ Your Autumn Tree Family MP4 is ready! Check Downloads.";
+            reader.onloadend = () => {
+              try {
+                const result = String(reader.result || "");
+                const comma = result.indexOf(",");
+
+                if (comma < 0) {
+                  reject(new Error("Could not prepare MP4 for Android save."));
+                  return;
+                }
+
+                resolve(result.slice(comma + 1));
+              } catch (e) {
+                reject(e);
+              }
+            };
+
+            reader.onerror = () =>
+              reject(new Error("Could not read the generated MP4."));
+            reader.readAsDataURL(mp4Blob);
+          });
+
+          const saveResult =
+            window.AndroidDownloader.saveBase64(fileName, base64Data);
+
+          if (saveResult !== "OK") {
+            throw new Error(
+              saveResult || "Android could not save the MP4 to Downloads."
+            );
+          }
+
+          status.textContent =
+            "❤️ Your Autumn Tree Family MP4 is ready and saved to Downloads!";
+        } else {
+          const url = URL.createObjectURL(mp4Blob);
+          const a = document.createElement("a");
+
+          a.href = url;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+
+          setTimeout(() => URL.revokeObjectURL(url), 60000);
+
+          status.textContent =
+            "❤️ Your Autumn Tree Family MP4 is ready! Check Downloads.";
+        }
 
         try {
           await ffmpeg.deleteFile("input.webm");
