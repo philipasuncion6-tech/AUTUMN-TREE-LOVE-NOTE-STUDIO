@@ -24,7 +24,7 @@ async function createAutumnTreeVideo() {
   const message =
     document.getElementById("message").value.trim() ||
     "May your days be filled with warmth, love, and beautiful memories. ❤️";
-  const theme = (() => { try { return localStorage.getItem("autumnTreeTheme") || "autumn"; } catch (e) { return "autumn"; } })();
+  const theme = (() => { try { return document.body.dataset.activeTheme || localStorage.getItem("autumnTreeTheme") || "autumn"; } catch (e) { return "autumn"; } })();
   const themes = {
     autumn: {label:"Autumn Love", title:"AUTUMN TREE", subtitle:"A FAMILY MOMENT", colors:["#512b24","#a44e29","#251d20"], glow:"255,190,85", particles:["🍁","🍂","🍃"], filename:"Autumn-Love-Note",image:"assets/mother-daughter-autumn.jpg"},
     winter: {label:"Winter & Snow Bear", title:"WINTER WISHES", subtitle:"A COZY SNOWY MOMENT", colors:["#102b49","#4f83b5","#14243b"], glow:"185,225,255", particles:["❄️","❅","❆"], filename:"Winter-Snow-Bear-Love-Note",image:"assets/winter-snow-bear.svg"},
