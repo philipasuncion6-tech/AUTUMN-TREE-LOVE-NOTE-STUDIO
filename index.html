@@ -25,7 +25,7 @@
   <div class="theme-heading">
     <span class="eyebrow">CHOOSE YOUR WORLD</span>
     <h2 id="themeTitle">Background Selection</h2>
-    <p>Four beautiful moods for every heartfelt message.</p>
+    <p>Choose your background first, then create your message.</p>
   </div>
   <div class="theme-grid">
     <button class="theme-card active" type="button" data-theme="autumn" aria-pressed="true">
@@ -36,16 +36,9 @@
       <span class="theme-art winter-art" aria-hidden="true">❄️ 🐻 ❄️</span>
       <strong>Winter &amp; Snow Bear</strong><small>Snowfall and cozy wishes</small>
     </button>
-    <button class="theme-card" type="button" data-theme="flowers" aria-pressed="false">
-      <span class="theme-art flowers-art" aria-hidden="true">🌷 🌸 🌼</span>
-      <strong>Flowers Studio</strong><small>Tulips, roses and blooms</small>
-    </button>
-    <button class="theme-card" type="button" data-theme="garden" aria-pressed="false">
-      <span class="theme-art garden-art" aria-hidden="true">🌹 💗 🌿</span>
-      <strong>Romantic Garden</strong><small>Roses and glowing hearts</small>
-    </button>
-  </div>
+undefined  </div>
   <p class="theme-status" id="themeStatus" aria-live="polite">Autumn Love selected</p>
+  <button id="createMessageBtn" class="continue-message" type="button">✍️ Create Message</button>
 </section>
 
 <section class="scene">
@@ -72,7 +65,7 @@
   </figure>
 </section>
 
-<section class="studio">
+<section class="studio" id="studio">
   <div class="section-heading">
     <span class="eyebrow">YOUR HEARTFELT MESSAGE</span>
     <h2>Create a Love Note</h2>
