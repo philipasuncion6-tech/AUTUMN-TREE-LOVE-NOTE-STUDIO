@@ -26,24 +26,25 @@ async function createAutumnTreeVideo() {
     "May your days be filled with warmth, love, and beautiful memories. ❤️";
   const theme = (() => { try { return localStorage.getItem("autumnTreeTheme") || "autumn"; } catch (e) { return "autumn"; } })();
   const themes = {
-    autumn: {label:"Autumn Love", title:"AUTUMN TREE", subtitle:"A FAMILY MOMENT", colors:["#512b24","#a44e29","#251d20"], glow:"255,190,85", particles:["🍁","🍂","🍃"], filename:"Autumn-Love-Note"},
-    winter: {label:"Winter & Snow Bear", title:"WINTER WISHES", subtitle:"A COZY SNOWY MOMENT", colors:["#102b49","#4f83b5","#14243b"], glow:"185,225,255", particles:["❄️","❅","❆"], filename:"Winter-Snow-Bear-Love-Note"},
-    flowers: {label:"Flowers Studio", title:"FLOWERS STUDIO", subtitle:"LET YOUR LOVE BLOSSOM", colors:["#54294c","#c66d91","#38233f"], glow:"255,190,220", particles:["🌷","🌸","🌼","🌺"], filename:"Flowers-Studio-Love-Note"},
-    garden: {label:"Romantic Garden", title:"ROMANTIC GARDEN", subtitle:"A ROSE GARDEN FOR TWO", colors:["#321d32","#8d3e61","#241b2c"], glow:"255,150,190", particles:["🌹","💗","🌿","🌸"], filename:"Romantic-Garden-Love-Note"}
+    autumn: {label:"Autumn Love", title:"AUTUMN TREE", subtitle:"A FAMILY MOMENT", colors:["#512b24","#a44e29","#251d20"], glow:"255,190,85", particles:["🍁","🍂","🍃"], filename:"Autumn-Love-Note",image:"assets/mother-daughter-autumn.jpg"},
+    winter: {label:"Winter & Snow Bear", title:"WINTER WISHES", subtitle:"A COZY SNOWY MOMENT", colors:["#102b49","#4f83b5","#14243b"], glow:"185,225,255", particles:["❄️","❅","❆"], filename:"Winter-Snow-Bear-Love-Note",image:"assets/winter-snow-bear.svg"},
+    flowers: {label:"Flowers Studio", title:"FLOWERS STUDIO", subtitle:"LET YOUR LOVE BLOSSOM", colors:["#54294c","#c66d91","#38233f"], glow:"255,190,220", particles:["🌷","🌸","🌼","🌺"], filename:"Flowers-Studio-Love-Note",image:"assets/flowers-studio.svg"},
+    garden: {label:"Romantic Garden", title:"ROMANTIC GARDEN", subtitle:"A ROSE GARDEN FOR TWO", colors:["#321d32","#8d3e61","#241b2c"], glow:"255,150,190", particles:["🌹","💗","🌿","🌸"], filename:"Romantic-Garden-Love-Note",image:"assets/romantic-garden.svg"}
   };
   const themeConfig = themes[theme] || themes.autumn;
 
   const familyImage = new Image();
-  familyImage.src = "assets/mother-daughter-autumn.jpg";
 
   try {
     status.textContent = "Preparing your " + themeConfig.label + " video scene...";
 
     await new Promise((resolve, reject) => {
-      familyImage.onload = resolve;
-      familyImage.onerror = () => reject(
-        new Error("Family artwork could not be loaded.")
-      );
+      let settled = false;
+      const done = () => { if (!settled) { settled = true; resolve(); } };
+      familyImage.onload = done;
+      familyImage.onerror = () => { if (!settled) { settled = true; reject(new Error("Selected theme artwork could not be loaded.")); } };
+      familyImage.src = themeConfig.image;
+      if (familyImage.complete && familyImage.naturalWidth) done();
     });
 
     // Falling leaves — same visual style as MY-CYBER-LAB:
