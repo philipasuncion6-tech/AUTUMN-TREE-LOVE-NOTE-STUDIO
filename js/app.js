@@ -65,6 +65,12 @@ const particleSets = {
   flowers: ["🌸","🌷","🌼","🌺"],
   garden: ["🌹","💗","🌿","🌸"]
 };
+const themeArtwork = {
+  autumn: {src:"assets/mother-daughter-autumn.jpg",alt:"A mother and daughter sharing a warm autumn moment beneath a maple tree",caption:"A precious moment to treasure forever"},
+  winter: {src:"assets/winter-snow-bear.svg",alt:"A cuddly white snow bear beneath falling snow",caption:"A cozy winter wish beneath the snow"},
+  flowers: {src:"assets/flowers-studio.svg",alt:"A colorful garden of blooming flowers",caption:"Let every beautiful thought blossom"},
+  garden: {src:"assets/romantic-garden.svg",alt:"A romantic rose garden with roses and a glowing arch",caption:"A lovely place for heartfelt memories"}
+};
 const sceneCopy = {
   autumn: {eyebrow:"AN AUTUMN MOMENT",title:"Meet Me Beneath the Tree",description:"Where golden leaves fall and beautiful memories begin.",art:""},
   winter: {eyebrow:"A WINTER WISH",title:"A Cozy Moment in the Snow",description:"Let gentle snowflakes make your message feel magical.",art:"❄️ 🐻 ❄️"},
@@ -105,6 +111,11 @@ function applyTheme(theme, save = true) {
   $("sceneTitle").textContent = copy.title;
   $("sceneDescription").textContent = copy.description;
   $("scene").dataset.sceneArt = copy.art;
+  const artwork = themeArtwork[theme];
+  const artworkImage = $("themeArtworkImage");
+  const artworkCaption = document.querySelector(".family-photo figcaption");
+  if (artworkImage && artwork) { artworkImage.src = artwork.src; artworkImage.alt = artwork.alt; }
+  if (artworkCaption && artwork) artworkCaption.textContent = artwork.caption;
   document.querySelectorAll(".theme-card").forEach(button => {
     const selected = button.dataset.theme === theme;
     button.classList.toggle("active", selected);
