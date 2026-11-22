@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#241b22">
+<title>My Voice • My Song — AI Videoke Prototype</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="hero">
+  <a class="back" href="../">← Autumn Tree Studio</a>
+  <p class="eyebrow">A NEW CREATIVE EXPERIENCE</p>
+  <h1>MY VOICE <span>•</span> MY SONG</h1>
+  <p class="lead">Your voice identity. A new melody. Your own singing experience.</p>
+  <div class="cover" aria-label="Autumn sunset with falling leaves">
+    <div class="sun"></div><div class="tree">🍂</div><div class="cover-title">AUTUMN MEMORIES<small>Love Never Fades</small></div>
+  </div>
+</header>
+<main>
+  <section class="panel">
+    <div class="step">01 · VOICE CAPTURE</div>
+    <h2>Start with your speaking voice</h2>
+    <p>Speak naturally for 10–20 seconds. You do not need to sing.</p>
+    <label class="consent"><input id="consent" type="checkbox"> I confirm this is my voice, or I have the speaker’s clear permission to record and use it.</label>
+    <div class="record-row">
+      <button id="recordBtn" class="primary" disabled>● Start recording</button>
+      <span id="recordStatus" role="status">Waiting for permission</span>
+    </div>
+    <audio id="voicePlayback" controls hidden></audio>
+    <div class="meter"><div id="meterFill"></div></div>
+    <p class="small">Your recording stays in this browser prototype. It is not uploaded or used to train a model.</p>
+  </section>
+
+  <section class="panel">
+    <div class="step">02 · SONG SELECTION</div>
+    <h2>Choose your first song</h2>
+    <label for="language">Language</label>
+    <select id="language"><option value="English">English</option></select>
+    <label for="song">Song</label>
+    <select id="song"><option value="autumn">Autumn Memories — Love Never Fades</option></select>
+    <div class="lyrics">
+      <div class="lyric-label">KARAOKE LYRICS · ORIGINAL DRAFT</div>
+      <p>Golden leaves are falling down,<br>Whispers of love all around.<br>Every moment, every smile,<br>Stays with me across the miles.</p>
+      <p class="chorus">Love never fades, love never dies,<br>Like autumn stars across the skies.<br>Through every season, near or far,<br>You’ll always be my shining star.</p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="step">03 · VOICE ANALYSIS</div>
+    <h2>Read your natural voice</h2>
+    <p id="analysis">Record a short voice sample first. The prototype can estimate basic audio characteristics such as duration and pitch range.</p>
+    <button id="analyzeBtn" disabled>Analyze voice sample</button>
+    <div id="analysisResult" class="result" aria-live="polite"></div>
+  </section>
+
+  <section class="panel final-panel">
+    <div class="step">04 · AI SINGING GENERATION</div>
+    <h2>Turn your voice into a song</h2>
+    <p>The next stage will use an authorized voice-to-singing service to create a singing performance while preserving the speaker’s voice identity.</p>
+    <button class="primary" id="generateBtn" disabled>Generate my singing voice</button>
+    <p class="notice" id="generationNote">Not connected yet: actual voice-to-song generation needs a compatible AI provider and secure backend. This prototype does not fake a singing result.</p>
+  </section>
+</main>
+<footer>MY VOICE • MY SONG <span>Prototype · English · First original song</span></footer>
+<script src="app.js"></script>
+</body>
+</html>
