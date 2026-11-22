@@ -299,6 +299,8 @@ ffmpeg.on("log", ({ message }) => {
   }
 });
 
+status.textContent = "⏳ Writing WebM file...";
+
 await ffmpeg.writeFile(
   "input.webm",
   await fetchFile(webmBlob)
