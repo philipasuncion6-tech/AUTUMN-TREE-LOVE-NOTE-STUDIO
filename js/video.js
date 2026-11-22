@@ -311,8 +311,9 @@ status.textContent = "⏳ FFmpeg conversion started...";
 await ffmpeg.exec([
           "-i", "input.webm",
           "-c:v", "mpeg4",
-          "-preset", "ultrafast",
-          "-q:v", "8",
+          "-q:v", "5",
+          "-threads", "1",
+          "-r", "30",
           "-pix_fmt", "yuv420p",
           "-movflags", "+faststart",
           "-an",
