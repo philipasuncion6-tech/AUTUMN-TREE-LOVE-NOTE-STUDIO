@@ -1,4 +1,4 @@
-const CACHE_NAME = "autumn-tree-v11";
+const CACHE_NAME = "autumn-tree-v12";
 
 const LOCAL_FILES = [
   "./",
@@ -45,8 +45,6 @@ self.addEventListener("fetch", event => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
-  // Always get the latest HTML/JavaScript from the network first.
-  // This prevents an old cached video.js from being used by Chrome.
   const isAppCode =
     url.pathname.endsWith(".html") ||
     url.pathname.endsWith(".js");
@@ -57,9 +55,7 @@ self.addEventListener("fetch", event => {
           .then(response => {
             if (response.ok) {
               const copy = response.clone();
-              caches.open(CACHE_NAME).then(cache =>
-                cache.put(event.request, copy)
-              );
+              caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
             }
             return response;
           })
@@ -70,9 +66,7 @@ self.addEventListener("fetch", event => {
           return fetch(event.request).then(response => {
             if (response.ok) {
               const copy = response.clone();
-              caches.open(CACHE_NAME).then(cache =>
-                cache.put(event.request, copy)
-              );
+              caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
             }
             return response;
           });
