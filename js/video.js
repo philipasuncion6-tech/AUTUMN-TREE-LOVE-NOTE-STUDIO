@@ -289,7 +289,7 @@ async function createAutumnTreeVideo() {
           classWorkerURL: new URL("814.ffmpeg.js", base).href
         });
 
-        status.textContent = "🎬 Creating your Family Autumn MP4...";
+        status.textContent = "✅ FFmpeg loaded. Starting conversion setup...";
 
 ffmpeg.on("log", ({ message }) => {
   console.log("[FFmpeg]", message);
