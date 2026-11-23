@@ -104,6 +104,12 @@ function resetParticles() {
 function applyTheme(theme, save = true) {
   if (!particleSets[theme]) return;
   activeTheme = theme;
+  // Single-selection mode: only the chosen world is active at any time.
+  document.querySelectorAll(".theme-card").forEach(button => {
+    const selected = button.dataset.theme === theme;
+    button.classList.toggle("active", selected);
+    button.setAttribute("aria-pressed", String(selected));
+  });
   document.body.classList.remove("theme-autumn","theme-winter","theme-flowers","theme-garden");
   document.body.classList.add("theme-" + theme);
   document.body.dataset.activeTheme = theme;
@@ -120,11 +126,6 @@ function applyTheme(theme, save = true) {
   const artworkCaption = document.querySelector(".family-photo figcaption");
   if (artworkImage && artwork) { artworkImage.src = artwork.src; artworkImage.alt = artwork.alt; }
   if (artworkCaption && artwork) artworkCaption.textContent = artwork.caption;
-  document.querySelectorAll(".theme-card").forEach(button => {
-    const selected = button.dataset.theme === theme;
-    button.classList.toggle("active", selected);
-    button.setAttribute("aria-pressed", String(selected));
-  });
   $("themeStatus").textContent = document.querySelector('[data-theme="' + theme + '"] strong').textContent + " selected";
   // Keep the message/preview flow identical for every selected theme.
   // The default Autumn Love flow remains the master behavior.
