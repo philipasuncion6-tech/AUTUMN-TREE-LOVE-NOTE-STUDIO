@@ -51,16 +51,14 @@ async function createAutumnTreeVideo() {
     // real autumn leaf symbols plus fresh green leaves.
     const leafSymbols = themeConfig.particles;
 
-    const leaves = Array.from({length: theme === "autumn" ? 46 : 38}, () => ({
+    const leaves = Array.from({length: 38}, () => ({
       x: Math.random() * 540,
       y: Math.random() * 960,
-      size: (theme === "autumn" ? 9 + Math.random() * 15 : 10 + Math.random() * 15) * (.5 + Math.random() * .7),
-      speed: 34 + Math.random() * 58,
+      size: 10 + Math.random() * 15,
+      speed: 30 + Math.random() * 60,
       angle: Math.random() * Math.PI * 2,
-      spin: (Math.random() - .5) * 1.25,
-      drift: 10 + Math.random() * 28,
-      phase: Math.random() * Math.PI * 2,
-      palette: ["#b94325", "#d66a25", "#e59b32", "#b8792e", "#8d3828"][Math.floor(Math.random() * 5)],
+      spin: (Math.random() - 0.5) * 1.8,
+      drift: 18 + Math.random() * 24,
       symbol: leafSymbols[Math.floor(Math.random() * leafSymbols.length)]
     }));
 
@@ -96,49 +94,15 @@ async function createAutumnTreeVideo() {
       ctx.restore();
     }
 
-    function drawFallingLeaf(x, y, size, symbol, angle, palette, depth, time) {
+    function drawFallingLeaf(x, y, size, symbol, angle) {
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(angle);
-      if (theme !== "autumn") {
-        ctx.font = String(size * 1.7) + 'px "Noto Color Emoji","Apple Color Emoji",sans-serif';
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(symbol, 0, 0);
-        ctx.restore();
-        return;
-      }
-      const scale = size / 22;
-      ctx.scale(scale, scale);
-      ctx.globalAlpha = .74 + depth * .2;
-      const gradient = ctx.createLinearGradient(-12, -14, 10, 15);
-      gradient.addColorStop(0, "#f2bd55");
-      gradient.addColorStop(.42, palette);
-      gradient.addColorStop(1, "#713020");
-      ctx.fillStyle = gradient;
-      ctx.shadowColor = "rgba(65,25,10,.3)";
-      ctx.shadowBlur = 2.5;
-      ctx.beginPath();
-      ctx.moveTo(0, 14);
-      ctx.quadraticCurveTo(-3, 7, -10, 4);
-      ctx.lineTo(-14, 1); ctx.lineTo(-8, -2);
-      ctx.lineTo(-11, -10); ctx.lineTo(-3, -7);
-      ctx.lineTo(0, -16); ctx.lineTo(3, -7);
-      ctx.lineTo(11, -10); ctx.lineTo(8, -2);
-      ctx.lineTo(14, 1); ctx.lineTo(7, 5);
-      ctx.quadraticCurveTo(3, 9, 0, 14);
-      ctx.closePath();
-      ctx.fill();
-      ctx.shadowBlur = 0;
-      ctx.strokeStyle = "rgba(255,218,143,.76)";
-      ctx.lineWidth = .8;
-      ctx.beginPath();
-      ctx.moveTo(0, 13); ctx.lineTo(0, -13);
-      ctx.moveTo(0, 3); ctx.lineTo(-9, -2);
-      ctx.moveTo(0, 0); ctx.lineTo(9, -4);
-      ctx.moveTo(0, -5); ctx.lineTo(-5, -8);
-      ctx.moveTo(0, -7); ctx.lineTo(5, -9);
-      ctx.stroke();
+      ctx.font =
+        String(size * 1.7) + 'px "Noto Color Emoji","Apple Color Emoji",sans-serif';
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(symbol, 0, 0);
       ctx.restore();
     }
 
@@ -161,12 +125,8 @@ async function createAutumnTreeVideo() {
       return lines;
     }
 
-    let previousSeconds = 0;
     function draw(elapsed) {
       const seconds = elapsed / 1000;
-      const dt = Math.min(.05, Math.max(0, seconds - previousSeconds));
-      previousSeconds = seconds;
-      const breeze = Math.sin(seconds * .72) * 22 + Math.sin(seconds * 1.37) * 8;
 
       // Warm autumn sunset background
       const bg = ctx.createLinearGradient(0, 0, 0, 960);
@@ -188,15 +148,14 @@ async function createAutumnTreeVideo() {
       // Theme artwork: preserve the full portrait polar-bear image in Winter.
       drawThemeArtwork();
 
-      // Natural, layered autumn leaves with gentle wind and individual spin.
+      // Animated foreground maple leaves
       leaves.forEach(leaf => {
-        leaf.y += leaf.speed * dt;
-        leaf.x += (leaf.drift + breeze * (.45 + leaf.size / 32)) * dt;
-        leaf.x += Math.sin(seconds * 1.6 + leaf.phase) * 7 * dt;
-        leaf.angle += leaf.spin * dt;
+        leaf.y += leaf.speed / 30;
+        leaf.x += Math.sin(seconds + leaf.angle) * leaf.drift / 30;
+        leaf.angle += leaf.spin / 30;
 
-        if (leaf.y > 990 || leaf.x < -60 || leaf.x > 600) {
-          leaf.y = -25 - Math.random() * 100;
+        if (leaf.y > 980) {
+          leaf.y = -30;
           leaf.x = Math.random() * 540;
         }
 
@@ -211,7 +170,7 @@ async function createAutumnTreeVideo() {
           ctx.fill();
           ctx.restore();
         } else {
-          drawFallingLeaf(leaf.x, leaf.y, leaf.size, leaf.symbol, leaf.angle, leaf.palette, .6 + leaf.size / 38, seconds);
+          drawFallingLeaf(leaf.x, leaf.y, leaf.size, leaf.symbol, leaf.angle);
         }
       });
 
