@@ -91,71 +91,21 @@ function resize() {
 }
 function newParticle(randomY = true) {
   const symbols = particleSets[activeTheme];
-  const depth = .45 + Math.random() * .75;
   return {
     x: Math.random() * innerWidth,
-    y: randomY ? Math.random() * innerHeight : -45,
-    size: (activeTheme === "autumn" ? 13 : 13 + Math.random() * 18) * depth,
-    speed: (activeTheme === "winter" ? 26 + Math.random() * 48 : 34 + Math.random() * 54) * depth,
-    drift: (Math.random() * 22 - 11) * depth,
-    angle: Math.random() * Math.PI * 2,
-    spin: (Math.random() - .5) * 1.1,
-    phase: Math.random() * Math.PI * 2,
-    depth,
-    palette: ["#b94325", "#d66a25", "#e59b32", "#b8792e", "#8d3828"][Math.floor(Math.random() * 5)],
+    y: randomY ? Math.random() * innerHeight : -35,
+    size: 13 + Math.random() * 18,
+    speed: activeTheme === "winter" ? .45 + Math.random() * 1.1 : .55 + Math.random() * 1.25,
+    drift: Math.random() * 1.2 - .6,
+    angle: Math.random() * 6.28,
+    spin: (Math.random() - .5) * .025,
     symbol: symbols[Math.floor(Math.random() * symbols.length)]
   };
 }
 function resetParticles() {
   particles = [];
-  const count = activeTheme === "autumn"
-    ? (window.innerWidth < 600 ? 22 : 36)
-    : (window.innerWidth < 600 ? 15 : 24);
+  const count = window.innerWidth < 600 ? 15 : 24;
   for (let i = 0; i < count; i++) particles.push(newParticle());
-}
-function drawRealisticMapleLeaf(particle, time) {
-  const size = particle.size;
-  const breeze = Math.sin(time * .00042 + particle.phase) * 1.0;
-  ctx.save();
-  ctx.translate(particle.x, particle.y);
-  ctx.rotate(particle.angle);
-  ctx.scale(size / 22, size / 22);
-  ctx.globalAlpha = .72 + particle.depth * .22;
-  const gradient = ctx.createLinearGradient(-12, -14, 10, 15);
-  gradient.addColorStop(0, "#f2bd55");
-  gradient.addColorStop(.42, particle.palette);
-  gradient.addColorStop(1, "#713020");
-  ctx.fillStyle = gradient;
-  ctx.shadowColor = "rgba(65,25,10,.28)";
-  ctx.shadowBlur = 3;
-  ctx.beginPath();
-  ctx.moveTo(0, 14);
-  ctx.quadraticCurveTo(-3, 7, -10, 4);
-  ctx.lineTo(-14, 1);
-  ctx.lineTo(-8, -2);
-  ctx.lineTo(-11, -10);
-  ctx.lineTo(-3, -7);
-  ctx.lineTo(0, -16);
-  ctx.lineTo(3, -7);
-  ctx.lineTo(11, -10);
-  ctx.lineTo(8, -2);
-  ctx.lineTo(14, 1);
-  ctx.lineTo(7, 5);
-  ctx.quadraticCurveTo(3, 9, 0, 14);
-  ctx.closePath();
-  ctx.fill();
-  ctx.shadowBlur = 0;
-  ctx.strokeStyle = "rgba(255,218,143,.72)";
-  ctx.lineWidth = .8;
-  ctx.beginPath();
-  ctx.moveTo(0, 13);
-  ctx.lineTo(0, -13);
-  ctx.moveTo(0, 3); ctx.lineTo(-9, -2);
-  ctx.moveTo(0, 0); ctx.lineTo(9, -4);
-  ctx.moveTo(0, -5); ctx.lineTo(-5, -8);
-  ctx.moveTo(0, -7); ctx.lineTo(5, -9);
-  ctx.stroke();
-  ctx.restore();
 }
 function applyTheme(theme, save = true) {
   if (!particleSets[theme]) return;
@@ -231,42 +181,30 @@ if (createMessageBtn) {
     }
   });
 }
-function animateParticles(now) {
-  const time = now || performance.now();
-  const dt = Math.min(.04, Math.max(.001, (time - (animateParticles.lastTime || time)) / 1000));
-  animateParticles.lastTime = time;
+function animateParticles() {
   ctx.clearRect(0, 0, innerWidth, innerHeight);
-  const breeze = Math.sin(time * .00032) * 13 + Math.sin(time * .00071) * 5;
   for (const particle of particles) {
-    particle.y += particle.speed * dt;
-    particle.x += (particle.drift + breeze * particle.depth) * dt
-      + Math.sin(time * .0011 + particle.phase) * 7 * dt;
-    particle.angle += particle.spin * dt;
-    if (activeTheme === "autumn") {
-      drawRealisticMapleLeaf(particle, time);
+    particle.y += particle.speed;
+    particle.x += Math.sin(particle.y * .012) * .7 + particle.drift;
+    particle.angle += particle.spin;
+    ctx.save();
+    ctx.translate(particle.x, particle.y);
+    ctx.rotate(particle.angle);
+    ctx.globalAlpha = activeTheme === "winter" ? .68 : .86;
+    if (activeTheme === "winter") {
+      const radius = Math.max(1.2, particle.size * .105);
+      ctx.fillStyle = "#f4fbff";
+      ctx.shadowColor = "#d9f2ff";
+      ctx.shadowBlur = particle.size * .42;
+      ctx.beginPath();
+      ctx.arc(0, 0, radius, 0, Math.PI * 2);
+      ctx.fill();
     } else {
-      ctx.save();
-      ctx.translate(particle.x, particle.y);
-      ctx.rotate(particle.angle);
-      ctx.globalAlpha = activeTheme === "winter" ? .68 : .86;
-      if (activeTheme === "winter") {
-        const radius = Math.max(1.2, particle.size * .105);
-        ctx.fillStyle = "#f4fbff";
-        ctx.shadowColor = "#d9f2ff";
-        ctx.shadowBlur = particle.size * .42;
-        ctx.beginPath();
-        ctx.arc(0, 0, radius, 0, Math.PI * 2);
-        ctx.fill();
-      } else {
-        ctx.font = particle.size + 'px "Noto Color Emoji","Apple Color Emoji",sans-serif';
-        ctx.fillText(particle.symbol, 0, 0);
-      }
-      ctx.restore();
+      ctx.font = particle.size + 'px "Noto Color Emoji","Apple Color Emoji",sans-serif';
+      ctx.fillText(particle.symbol, 0, 0);
     }
-    if (particle.y > innerHeight + 48 || particle.x < -55 || particle.x > innerWidth + 55) {
-      Object.assign(particle, newParticle(false));
-      if (particle.x < -55 || particle.x > innerWidth + 55) particle.x = Math.random() * innerWidth;
-    }
+    ctx.restore();
+    if (particle.y > innerHeight + 35) Object.assign(particle, newParticle(false));
   }
   requestAnimationFrame(animateParticles);
 }
