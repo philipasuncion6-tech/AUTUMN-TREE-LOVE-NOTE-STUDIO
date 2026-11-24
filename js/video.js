@@ -68,7 +68,7 @@ async function createAutumnTreeVideo() {
     }
 
     function drawThemeArtwork() {
-      const frame = {x:13, y:128, w:514, h:540, radius:20};
+      const frame = theme === "winter" ? {x:55, y:112, w:430, h:645, radius:22} : {x:13, y:128, w:514, h:540, radius:20};
       ctx.save();
       roundedRect(frame.x, frame.y, frame.w, frame.h, frame.radius);
       ctx.clip();
@@ -195,31 +195,34 @@ async function createAutumnTreeVideo() {
 
         ctx.shadowColor = "rgba(20,10,5,.4)";
         ctx.shadowBlur = 18;
-        ctx.fillStyle = "rgba(255,242,217,.96)";
-        ctx.strokeStyle = "#d7a65f";
+        const note = theme === "winter"
+          ? {x:28, y:780, w:484, h:145, titleY:805, recipientY:833, messageY:858, lineGap:18, maxLines:2, fontSize:15, footerY:910}
+          : {x:28, y:690, w:484, h:224, titleY:721, recipientY:755, messageY:790, lineGap:25, maxLines:4, fontSize:17, footerY:885};
+        ctx.fillStyle = theme === "winter" ? "rgba(244,250,255,.97)" : "rgba(255,242,217,.96)";
+        ctx.strokeStyle = theme === "winter" ? "#b9def6" : "#d7a65f";
         ctx.lineWidth = 2.5;
-        roundedRect(28, 690, 484, 224, 20);
+        roundedRect(note.x, note.y, note.w, note.h, 20);
         ctx.fill();
         ctx.stroke();
         ctx.shadowBlur = 0;
 
-        ctx.fillStyle = "#92572e";
-        ctx.font = "bold 15px Georgia";
-        ctx.fillText("A LITTLE NOTE FOR YOU", 270, 721);
+        ctx.fillStyle = theme === "winter" ? "#426887" : "#92572e";
+        ctx.font = "bold 13px Georgia";
+        ctx.fillText("A LITTLE NOTE FOR YOU", 270, note.titleY);
 
-        ctx.fillStyle = "#633b27";
-        ctx.font = "bold 23px Georgia";
-        ctx.fillText(recipient.slice(0, 30), 270, 755);
+        ctx.fillStyle = theme === "winter" ? "#193b57" : "#633b27";
+        ctx.font = "bold 21px Georgia";
+        ctx.fillText(recipient.slice(0, 30), 270, note.recipientY);
 
-        ctx.font = "17px Georgia";
-        const lines = wrapText(message, 420).slice(0, 4);
+        ctx.font = note.fontSize + "px Georgia";
+        const lines = wrapText(message, 420).slice(0, note.maxLines);
         lines.forEach((line, i) => {
-          ctx.fillText(line, 270, 790 + i * 25);
+          ctx.fillText(line, 270, note.messageY + i * note.lineGap);
         });
 
-        ctx.fillStyle = "#a45b31";
-        ctx.font = "italic 16px Georgia";
-        ctx.fillText("With love, always ♥", 270, 885);
+        ctx.fillStyle = theme === "winter" ? "#527d9c" : "#a45b31";
+        ctx.font = "italic 15px Georgia";
+        ctx.fillText("With love, always ♥", 270, note.footerY);
 
         ctx.restore();
       }
