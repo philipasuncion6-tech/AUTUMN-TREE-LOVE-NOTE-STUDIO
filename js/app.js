@@ -67,7 +67,7 @@ const particleSets = {
 };
 const themeArtwork = {
   autumn: {src:"assets/mother-daughter-autumn.jpg",alt:"A mother and daughter sharing a warm autumn moment beneath a maple tree",caption:"A precious moment to treasure forever"},
-  winter: {src:"assets/winter-snow-bear-realistic.jpg",alt:"A fluffy white polar bear cub in a red snowflake scarf in a snowy forest beside a snowman and glowing cabin",caption:"A cozy winter wish beneath the snow"},
+  winter: {src:"assets/winter-snow-bear-preview.jpg",alt:"A fluffy white polar bear cub sitting in a snowy pine forest",caption:"A cozy winter wish beneath the snow"},
   flowers: {src:"assets/flowers-studio.svg",alt:"A colorful garden of blooming flowers",caption:"Let every beautiful thought blossom"},
   garden: {src:"assets/romantic-garden.svg",alt:"A romantic rose garden with roses and a glowing arch",caption:"A lovely place for heartfelt memories"}
 };
