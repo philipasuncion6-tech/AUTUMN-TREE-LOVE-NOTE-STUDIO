@@ -27,7 +27,7 @@ async function createAutumnTreeVideo() {
   const theme = (() => { try { return document.body.dataset.activeTheme || localStorage.getItem("autumnTreeTheme") || "autumn"; } catch (e) { return "autumn"; } })();
   const themes = {
     autumn: {label:"Autumn Love", title:"AUTUMN TREE", subtitle:"A FAMILY MOMENT", colors:["#512b24","#a44e29","#251d20"], glow:"255,190,85", particles:["🍁","🍂","🍃"], filename:"Autumn-Love-Note",image:"assets/mother-daughter-autumn.jpg"},
-    winter: {label:"Winter & Snow Bear", title:"WINTER WISHES", subtitle:"A COZY SNOWY MOMENT", colors:["#102b49","#4f83b5","#14243b"], glow:"185,225,255", particles:["❄️","❅","❆"], filename:"Winter-Snow-Bear-Love-Note",image:"assets/winter-snow-bear.svg"},
+    winter: {label:"Winter & Snow Bear", title:"WINTER WISHES", subtitle:"A COZY SNOWY MOMENT", colors:["#102b49","#4f83b5","#14243b"], glow:"185,225,255", particles:["❄️","❅","❆"], filename:"Winter-Snow-Bear-Love-Note",image:"assets/winter-snow-bear-realistic.jpg"},
     flowers: {label:"Flowers Studio", title:"FLOWERS STUDIO", subtitle:"LET YOUR LOVE BLOSSOM", colors:["#54294c","#c66d91","#38233f"], glow:"255,190,220", particles:["🌷","🌸","🌼","🌺"], filename:"Flowers-Studio-Love-Note",image:"assets/flowers-studio.svg"},
     garden: {label:"Romantic Garden", title:"ROMANTIC GARDEN", subtitle:"A ROSE GARDEN FOR TWO", colors:["#321d32","#8d3e61","#241b2c"], glow:"255,150,190", particles:["🌹","💗","🌿","🌸"], filename:"Romantic-Garden-Love-Note",image:"assets/romantic-garden.svg"}
   };
@@ -150,9 +150,19 @@ async function createAutumnTreeVideo() {
           leaf.x = Math.random() * 540;
         }
 
-        drawFallingLeaf(
-          leaf.x, leaf.y, leaf.size, leaf.symbol, leaf.angle
-        );
+        if (theme === "winter") {
+          ctx.save();
+          ctx.globalAlpha = .55 + (leaf.size / 50);
+          ctx.fillStyle = "#f4fbff";
+          ctx.shadowColor = "#d9f2ff";
+          ctx.shadowBlur = leaf.size * .65;
+          ctx.beginPath();
+          ctx.arc(leaf.x, leaf.y, Math.max(1.5, leaf.size * .12), 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        } else {
+          drawFallingLeaf(leaf.x, leaf.y, leaf.size, leaf.symbol, leaf.angle);
+        }
       });
 
       // Title
