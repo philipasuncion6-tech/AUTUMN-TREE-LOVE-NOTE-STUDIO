@@ -83,6 +83,12 @@ const familyCopy = {
   flowers: {eyebrow:"A BEAUTIFUL MOMENT",title:"Let Love Bloom Around You",description:"Some memories grow gently, like flowers cared for with love.",signature:"May every moment blossom beautifully. 🌸❤️"},
   garden: {eyebrow:"A ROMANTIC MOMENT",title:"A Garden Made for Two",description:"Where roses bloom and heartfelt memories find a beautiful place to stay.",signature:"Love makes every garden brighter. 🌹❤️"}
 };
+const videoCopy = {
+  autumn: {title:"Make an Autumn Memory",description:"Turn your heartfelt message into a gentle falling-leaves video."},
+  winter: {title:"Create a Winter Snow Bear Memory",description:"Keep your message inside a cozy snowy scene with the polar bear, glowing cabin, and soft snowfall."},
+  flowers: {title:"Create a Flowers Memory",description:"Turn your message into a bright, blooming garden video."},
+  garden: {title:"Create a Romantic Garden Memory",description:"Keep your message in a warm rose-garden scene."}
+};
 function resize() {
   const ratio = Math.min(window.devicePixelRatio || 1, 2);
   canvas.width = window.innerWidth * ratio;
@@ -148,6 +154,10 @@ function applyTheme(theme, save = true) {
   if ($("themeStatus")) $("themeStatus").textContent = (selectedLabel ? selectedLabel.textContent : theme) + " selected";
   const videoButton = $("videoBtn");
   if (videoButton) videoButton.textContent = "Create " + (theme === "autumn" ? "Autumn Love" : theme === "winter" ? "Winter Snow Bear" : theme === "flowers" ? "Flowers Studio" : "Romantic Garden") + " MP4";
+  const videoHeading = $("videoHeading");
+  const videoDescription = $("videoDescription");
+  if (videoHeading) videoHeading.textContent = videoCopy[theme].title;
+  if (videoDescription) videoDescription.textContent = videoCopy[theme].description;
   // Keep the message/preview flow identical for every selected theme.
   // The default Autumn Love flow remains the master behavior.
   updatePreview();
