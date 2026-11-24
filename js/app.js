@@ -67,13 +67,13 @@ const particleSets = {
 };
 const themeArtwork = {
   autumn: {src:"assets/mother-daughter-autumn.jpg",alt:"A mother and daughter sharing a warm autumn moment beneath a maple tree",caption:"A precious moment to treasure forever"},
-  winter: {src:"assets/winter-snow-bear.svg",alt:"A cuddly white snow bear beneath falling snow",caption:"A cozy winter wish beneath the snow"},
+  winter: {src:"assets/winter-snow-bear-realistic.jpg",alt:"A fluffy white polar bear cub in a red snowflake scarf in a snowy forest beside a snowman and glowing cabin",caption:"A cozy winter wish beneath the snow"},
   flowers: {src:"assets/flowers-studio.svg",alt:"A colorful garden of blooming flowers",caption:"Let every beautiful thought blossom"},
   garden: {src:"assets/romantic-garden.svg",alt:"A romantic rose garden with roses and a glowing arch",caption:"A lovely place for heartfelt memories"}
 };
 const sceneCopy = {
   autumn: {eyebrow:"AN AUTUMN MOMENT",title:"Meet Me Beneath the Tree",description:"Where golden leaves fall and beautiful memories begin.",art:""},
-  winter: {eyebrow:"A WINTER WISH",title:"A Cozy Moment in the Snow",description:"Let gentle snowflakes make your message feel magical.",art:"❄️ 🐻 ❄️"},
+  winter: {eyebrow:"A WINTER WISH",title:"A Cozy Moment in the Snow",description:"A little polar bear, a glowing cabin, and a forest dressed in snow.",art:""},
   flowers: {eyebrow:"A GARDEN IN BLOOM",title:"Let Your Love Blossom",description:"Surround your heartfelt words with beautiful flowers.",art:"🌷 🌸 🌼"},
   garden: {eyebrow:"A ROMANTIC ESCAPE",title:"A Rose Garden for Two",description:"A lovely place for messages filled with warmth and affection.",art:"🌹 💗 🌿"}
 };
@@ -186,9 +186,19 @@ function animateParticles() {
     ctx.save();
     ctx.translate(particle.x, particle.y);
     ctx.rotate(particle.angle);
-    ctx.globalAlpha = activeTheme === "winter" ? .78 : .86;
-    ctx.font = particle.size + 'px "Noto Color Emoji","Apple Color Emoji",sans-serif';
-    ctx.fillText(particle.symbol, 0, 0);
+    ctx.globalAlpha = activeTheme === "winter" ? .68 : .86;
+    if (activeTheme === "winter") {
+      const radius = Math.max(1.2, particle.size * .105);
+      ctx.fillStyle = "#f4fbff";
+      ctx.shadowColor = "#d9f2ff";
+      ctx.shadowBlur = particle.size * .42;
+      ctx.beginPath();
+      ctx.arc(0, 0, radius, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      ctx.font = particle.size + 'px "Noto Color Emoji","Apple Color Emoji",sans-serif';
+      ctx.fillText(particle.symbol, 0, 0);
+    }
     ctx.restore();
     if (particle.y > innerHeight + 35) Object.assign(particle, newParticle(false));
   }
