@@ -67,6 +67,33 @@ async function createAutumnTreeVideo() {
       ctx.roundRect(x, y, w, h, r);
     }
 
+    function drawThemeArtwork() {
+      const frame = {x:13, y:128, w:514, h:540, radius:20};
+      ctx.save();
+      roundedRect(frame.x, frame.y, frame.w, frame.h, frame.radius);
+      ctx.clip();
+      ctx.fillStyle = themeConfig.colors[0];
+      ctx.fillRect(frame.x, frame.y, frame.w, frame.h);
+      const imageRatio = familyImage.naturalWidth / familyImage.naturalHeight;
+      if (theme === "winter" && imageRatio < 0.8) {
+        const drawHeight = frame.h;
+        const drawWidth = drawHeight * imageRatio;
+        ctx.drawImage(familyImage, frame.x + (frame.w - drawWidth) / 2, frame.y, drawWidth, drawHeight);
+      } else {
+        const scale = Math.max(frame.w / familyImage.naturalWidth, frame.h / familyImage.naturalHeight);
+        const drawWidth = familyImage.naturalWidth * scale;
+        const drawHeight = familyImage.naturalHeight * scale;
+        ctx.drawImage(familyImage, frame.x + (frame.w - drawWidth) / 2, frame.y + (frame.h - drawHeight) / 2, drawWidth, drawHeight);
+      }
+      ctx.restore();
+      ctx.save();
+      ctx.strokeStyle = theme === "winter" ? "#d8efff" : "#e9bd78";
+      ctx.lineWidth = 3;
+      roundedRect(frame.x, frame.y, frame.w, frame.h, frame.radius);
+      ctx.stroke();
+      ctx.restore();
+    }
+
     function drawFallingLeaf(x, y, size, symbol, angle) {
       ctx.save();
       ctx.translate(x, y);
@@ -118,26 +145,8 @@ async function createAutumnTreeVideo() {
       ctx.fillStyle = glow;
       ctx.fillRect(0, 100, 540, 650);
 
-      // Family artwork with gentle cinematic camera movement
-      const zoom = 1.015 + Math.sin(seconds * .45) * .012;
-      const w = 504 * zoom;
-      const h = 504 * zoom;
-      const x = (540 - w) / 2 + Math.sin(seconds * .3) * 2;
-      const y = 142 + (504 - h) / 2;
-
-      ctx.save();
-      roundedRect(13, 135, 514, 518, 20);
-      ctx.clip();
-      ctx.drawImage(familyImage, x, y, w, h);
-      ctx.restore();
-
-      // Golden frame
-      ctx.save();
-      ctx.strokeStyle = "#e9bd78";
-      ctx.lineWidth = 3;
-      roundedRect(13, 135, 514, 518, 20);
-      ctx.stroke();
-      ctx.restore();
+      // Theme artwork: preserve the full portrait polar-bear image in Winter.
+      drawThemeArtwork();
 
       // Animated foreground maple leaves
       leaves.forEach(leaf => {
@@ -221,7 +230,7 @@ async function createAutumnTreeVideo() {
       ctx.fillText("Created with love by Asuncion", 270, 946);
     }
 
-    const stream = canvas.captureStream(30);
+    const stream = canvas.captureStream(24);
     let recorder;
 
     try {
