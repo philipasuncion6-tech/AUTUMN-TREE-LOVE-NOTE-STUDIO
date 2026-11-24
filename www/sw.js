@@ -1,4 +1,4 @@
-const CACHE_NAME = "autumn-tree-v16";
+const CACHE_NAME = "autumn-tree-v17";
 
 const LOCAL_FILES = [
   "./",
