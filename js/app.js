@@ -123,7 +123,8 @@ function applyTheme(theme, save = true) {
   $("sceneEyebrow").textContent = copy.eyebrow;
   $("sceneTitle").textContent = copy.title;
   $("sceneDescription").textContent = copy.description;
-  $("scene").dataset.sceneArt = copy.art;
+  const sceneElement = $("scene");
+  if (sceneElement) sceneElement.dataset.sceneArt = copy.art;
   const artwork = themeArtwork[theme];
   const previewSymbols = {autumn:"🍁",winter:"❄️",flowers:"🌸",garden:"🌹"};
   const previewSymbol = $("previewSymbol");
@@ -143,7 +144,10 @@ function applyTheme(theme, save = true) {
     if (familyDescription) familyDescription.textContent = family.description;
     if (familySignature) familySignature.textContent = family.signature;
   }
-  $("themeStatus").textContent = document.querySelector('[data-theme="' + theme + '"] strong').textContent + " selected";
+  const selectedLabel = document.querySelector('[data-theme="' + theme + '"] strong');
+  if ($("themeStatus")) $("themeStatus").textContent = (selectedLabel ? selectedLabel.textContent : theme) + " selected";
+  const videoButton = $("videoBtn");
+  if (videoButton) videoButton.textContent = "Create " + (theme === "autumn" ? "Autumn Love" : theme === "winter" ? "Winter Snow Bear" : theme === "flowers" ? "Flowers Studio" : "Romantic Garden") + " MP4";
   // Keep the message/preview flow identical for every selected theme.
   // The default Autumn Love flow remains the master behavior.
   updatePreview();
