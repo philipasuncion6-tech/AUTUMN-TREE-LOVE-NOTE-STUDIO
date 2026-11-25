@@ -1,4 +1,4 @@
-const CACHE_NAME = "autumn-tree-v7";
+const CACHE_NAME = "autumn-tree-v20";
 
 const LOCAL_FILES = [
   "./",
@@ -11,6 +11,8 @@ const LOCAL_FILES = [
   "./assets/autumn-icon.svg",
   "./assets/mother-daughter-autumn.jpg",
   "./assets/winter-snow-bear.svg",
+  "./assets/winter-snow-bear-preview.jpg",
+  "./assets/winter-snow-bear-mp4.jpg",
   "./assets/flowers-studio.svg",
   "./assets/romantic-garden.svg",
   "./assets/icon.png",
@@ -45,19 +47,31 @@ self.addEventListener("fetch", event => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
-  event.respondWith(
-    caches.match(event.request).then(cached => {
-      if (cached) return cached;
+  const isAppCode =
+    url.pathname.endsWith(".html") ||
+    url.pathname.endsWith(".js");
 
-      return fetch(event.request).then(response => {
-        if (response.ok) {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then(cache =>
-            cache.put(event.request, copy)
-          );
-        }
-        return response;
-      });
-    })
+  event.respondWith(
+    isAppCode
+      ? fetch(event.request)
+          .then(response => {
+            if (response.ok) {
+              const copy = response.clone();
+              caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+            }
+            return response;
+          })
+          .catch(() => caches.match(event.request))
+      : caches.match(event.request).then(cached => {
+          if (cached) return cached;
+
+          return fetch(event.request).then(response => {
+            if (response.ok) {
+              const copy = response.clone();
+              caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+            }
+            return response;
+          });
+        })
   );
 });

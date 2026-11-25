@@ -67,13 +67,13 @@ const particleSets = {
 };
 const themeArtwork = {
   autumn: {src:"assets/mother-daughter-autumn.jpg",alt:"A mother and daughter sharing a warm autumn moment beneath a maple tree",caption:"A precious moment to treasure forever"},
-  winter: {src:"assets/winter-snow-bear.svg",alt:"A cuddly white snow bear beneath falling snow",caption:"A cozy winter wish beneath the snow"},
+  winter: {src:"assets/winter-snow-bear-preview.jpg",alt:"A fluffy white polar bear cub sitting in a snowy pine forest",caption:"A cozy winter wish beneath the snow"},
   flowers: {src:"assets/flowers-studio.svg",alt:"A colorful garden of blooming flowers",caption:"Let every beautiful thought blossom"},
   garden: {src:"assets/romantic-garden.svg",alt:"A romantic rose garden with roses and a glowing arch",caption:"A lovely place for heartfelt memories"}
 };
 const sceneCopy = {
   autumn: {eyebrow:"AN AUTUMN MOMENT",title:"Meet Me Beneath the Tree",description:"Where golden leaves fall and beautiful memories begin.",art:""},
-  winter: {eyebrow:"A WINTER WISH",title:"A Cozy Moment in the Snow",description:"Let gentle snowflakes make your message feel magical.",art:"❄️ 🐻 ❄️"},
+  winter: {eyebrow:"A WINTER WISH",title:"A Cozy Moment in the Snow",description:"A little polar bear, a glowing cabin, and a forest dressed in snow.",art:""},
   flowers: {eyebrow:"A GARDEN IN BLOOM",title:"Let Your Love Blossom",description:"Surround your heartfelt words with beautiful flowers.",art:"🌷 🌸 🌼"},
   garden: {eyebrow:"A ROMANTIC ESCAPE",title:"A Rose Garden for Two",description:"A lovely place for messages filled with warmth and affection.",art:"🌹 💗 🌿"}
 };
@@ -82,6 +82,12 @@ const familyCopy = {
   winter: {eyebrow:"A COZY WINTER MOMENT",title:"Warm Hearts Beneath the Snow",description:"Even in the coldest season, love keeps every beautiful memory warm.",signature:"Together feels like home. ❄️❤️"},
   flowers: {eyebrow:"A BEAUTIFUL MOMENT",title:"Let Love Bloom Around You",description:"Some memories grow gently, like flowers cared for with love.",signature:"May every moment blossom beautifully. 🌸❤️"},
   garden: {eyebrow:"A ROMANTIC MOMENT",title:"A Garden Made for Two",description:"Where roses bloom and heartfelt memories find a beautiful place to stay.",signature:"Love makes every garden brighter. 🌹❤️"}
+};
+const videoCopy = {
+  autumn: {title:"Make an Autumn Memory",description:"Turn your heartfelt message into a gentle falling-leaves video."},
+  winter: {title:"Create a Winter Snow Bear Memory",description:"Keep your message inside a cozy snowy scene with the polar bear, glowing cabin, and soft snowfall."},
+  flowers: {title:"Create a Flowers Memory",description:"Turn your message into a bright, blooming garden video."},
+  garden: {title:"Create a Romantic Garden Memory",description:"Keep your message in a warm rose-garden scene."}
 };
 function resize() {
   const ratio = Math.min(window.devicePixelRatio || 1, 2);
@@ -123,7 +129,8 @@ function applyTheme(theme, save = true) {
   $("sceneEyebrow").textContent = copy.eyebrow;
   $("sceneTitle").textContent = copy.title;
   $("sceneDescription").textContent = copy.description;
-  $("scene").dataset.sceneArt = copy.art;
+  const sceneElement = $("scene");
+  if (sceneElement) sceneElement.dataset.sceneArt = copy.art;
   const artwork = themeArtwork[theme];
   const previewSymbols = {autumn:"🍁",winter:"❄️",flowers:"🌸",garden:"🌹"};
   const previewSymbol = $("previewSymbol");
@@ -143,7 +150,14 @@ function applyTheme(theme, save = true) {
     if (familyDescription) familyDescription.textContent = family.description;
     if (familySignature) familySignature.textContent = family.signature;
   }
-  $("themeStatus").textContent = document.querySelector('[data-theme="' + theme + '"] strong').textContent + " selected";
+  const selectedLabel = document.querySelector('[data-theme="' + theme + '"] strong');
+  if ($("themeStatus")) $("themeStatus").textContent = (selectedLabel ? selectedLabel.textContent : theme) + " selected";
+  const videoButton = $("videoBtn");
+  if (videoButton) videoButton.textContent = "Create " + (theme === "autumn" ? "Autumn Love" : theme === "winter" ? "Winter Snow Bear" : theme === "flowers" ? "Flowers Studio" : "Romantic Garden") + " MP4";
+  const videoHeading = $("videoHeading");
+  const videoDescription = $("videoDescription");
+  if (videoHeading) videoHeading.textContent = videoCopy[theme].title;
+  if (videoDescription) videoDescription.textContent = videoCopy[theme].description;
   // Keep the message/preview flow identical for every selected theme.
   // The default Autumn Love flow remains the master behavior.
   updatePreview();
@@ -186,9 +200,19 @@ function animateParticles() {
     ctx.save();
     ctx.translate(particle.x, particle.y);
     ctx.rotate(particle.angle);
-    ctx.globalAlpha = activeTheme === "winter" ? .78 : .86;
-    ctx.font = particle.size + 'px "Noto Color Emoji","Apple Color Emoji",sans-serif';
-    ctx.fillText(particle.symbol, 0, 0);
+    ctx.globalAlpha = activeTheme === "winter" ? .68 : .86;
+    if (activeTheme === "winter") {
+      const radius = Math.max(1.2, particle.size * .105);
+      ctx.fillStyle = "#f4fbff";
+      ctx.shadowColor = "#d9f2ff";
+      ctx.shadowBlur = particle.size * .42;
+      ctx.beginPath();
+      ctx.arc(0, 0, radius, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      ctx.font = particle.size + 'px "Noto Color Emoji","Apple Color Emoji",sans-serif';
+      ctx.fillText(particle.symbol, 0, 0);
+    }
     ctx.restore();
     if (particle.y > innerHeight + 35) Object.assign(particle, newParticle(false));
   }

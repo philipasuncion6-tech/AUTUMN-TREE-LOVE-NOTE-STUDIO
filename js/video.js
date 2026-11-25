@@ -27,7 +27,7 @@ async function createAutumnTreeVideo() {
   const theme = (() => { try { return document.body.dataset.activeTheme || localStorage.getItem("autumnTreeTheme") || "autumn"; } catch (e) { return "autumn"; } })();
   const themes = {
     autumn: {label:"Autumn Love", title:"AUTUMN TREE", subtitle:"A FAMILY MOMENT", colors:["#512b24","#a44e29","#251d20"], glow:"255,190,85", particles:["🍁","🍂","🍃"], filename:"Autumn-Love-Note",image:"assets/mother-daughter-autumn.jpg"},
-    winter: {label:"Winter & Snow Bear", title:"WINTER WISHES", subtitle:"A COZY SNOWY MOMENT", colors:["#102b49","#4f83b5","#14243b"], glow:"185,225,255", particles:["❄️","❅","❆"], filename:"Winter-Snow-Bear-Love-Note",image:"assets/winter-snow-bear.svg"},
+    winter: {label:"Winter & Snow Bear", title:"WINTER WISHES", subtitle:"A COZY SNOWY MOMENT", colors:["#102b49","#4f83b5","#14243b"], glow:"185,225,255", particles:["❄️","❅","❆"], filename:"Winter-Snow-Bear-Love-Note",image:"assets/winter-snow-bear-mp4.jpg"},
     flowers: {label:"Flowers Studio", title:"FLOWERS STUDIO", subtitle:"LET YOUR LOVE BLOSSOM", colors:["#54294c","#c66d91","#38233f"], glow:"255,190,220", particles:["🌷","🌸","🌼","🌺"], filename:"Flowers-Studio-Love-Note",image:"assets/flowers-studio.svg"},
     garden: {label:"Romantic Garden", title:"ROMANTIC GARDEN", subtitle:"A ROSE GARDEN FOR TWO", colors:["#321d32","#8d3e61","#241b2c"], glow:"255,150,190", particles:["🌹","💗","🌿","🌸"], filename:"Romantic-Garden-Love-Note",image:"assets/romantic-garden.svg"}
   };
@@ -315,19 +315,63 @@ await ffmpeg.exec([
         );
 
         const mp4Blob = new Blob([data], {type: "video/mp4"});
-        const url = URL.createObjectURL(mp4Blob);
-        const a = document.createElement("a");
+        const fileName = themeConfig.filename + ".mp4";
 
-        a.href = url;
-        a.download = themeConfig.filename + ".mp4";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
+        // Native Android APK: save through MediaStore so the file appears
+        // in the public Downloads collection and is visible to Files/Gallery.
+        if (
+          window.AndroidDownloader &&
+          typeof window.AndroidDownloader.saveBase64 === "function"
+        ) {
+          status.textContent = "⏳ Saving MP4 to Android Downloads...";
 
-        setTimeout(() => URL.revokeObjectURL(url), 60000);
+          const base64Data = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
 
-        status.textContent =
-          "❤️ Your " + themeConfig.label + " MP4 is ready! Check Downloads.";
+            reader.onloadend = () => {
+              const result = String(reader.result || "");
+              const comma = result.indexOf(",");
+
+              if (comma < 0) {
+                reject(new Error("Could not prepare MP4 for Android save."));
+                return;
+              }
+
+              resolve(result.slice(comma + 1));
+            };
+
+            reader.onerror = () =>
+              reject(new Error("Could not read the generated MP4."));
+            reader.readAsDataURL(mp4Blob);
+          });
+
+          const saveResult =
+            window.AndroidDownloader.saveBase64(fileName, base64Data);
+
+          if (saveResult !== "OK") {
+            throw new Error(
+              saveResult || "Android could not save the MP4 to Downloads."
+            );
+          }
+
+          status.textContent =
+            "❤️ Your " + themeConfig.label + " MP4 is saved to Downloads!";
+        } else {
+          // Standard browser/web download fallback.
+          const url = URL.createObjectURL(mp4Blob);
+          const a = document.createElement("a");
+
+          a.href = url;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+
+          setTimeout(() => URL.revokeObjectURL(url), 60000);
+
+          status.textContent =
+            "❤️ Your " + themeConfig.label + " MP4 download has started.";
+        }
 
         try {
           await ffmpeg.deleteFile("input.webm");

@@ -37,7 +37,7 @@
   <button id="createMessageBtn" class="continue-message" type="button">✍️ Create Message</button>
 </section>
 
-<section class="scene"><div class="scene-caption"><span id="sceneEyebrow">AN AUTUMN MOMENT</span><h1 id="sceneTitle">Meet Me Beneath the Tree</h1><p id="sceneDescription">Where golden leaves fall and beautiful memories begin.</p></div><img class="tree-art" src="assets/autumn-tree-bench.svg" alt="A large autumn tree with a wooden park bench beneath it"><div class="scene-bottom">🍂 A LITTLE NOTE • A LASTING MEMORY 🍂</div></section>
+<section class="scene" id="scene"><img class="winter-scene-art" src="assets/winter-snow-bear-preview.jpg" alt="A fluffy white polar bear cub sitting in a snowy pine forest"><div class="scene-caption"><span id="sceneEyebrow">AN AUTUMN MOMENT</span><h1 id="sceneTitle">Meet Me Beneath the Tree</h1><p id="sceneDescription">Where golden leaves fall and beautiful memories begin.</p></div><img class="tree-art" src="assets/autumn-tree-bench.svg" alt="A large autumn tree with a wooden park bench beneath it"><div class="scene-bottom">🍂 A LITTLE NOTE • A LASTING MEMORY 🍂</div></section>
 
 <section class="family-moment"><div class="family-copy"><span class="eyebrow">A SPECIAL FAMILY MOMENT</span><h2>Love Grows Beneath the Autumn Tree</h2><p>Some of life's most beautiful memories are made with the people closest to our hearts.</p><div class="family-signature">Together is a beautiful place to be. ❤️</div></div><figure class="family-photo"><img id="themeArtworkImage" src="assets/mother-daughter-autumn.jpg" alt="A mother and daughter sharing a warm autumn moment beneath a maple tree"><figcaption>A precious moment to treasure forever</figcaption></figure></section>
 
@@ -47,17 +47,17 @@
 <label for="message">Your message</label><textarea id="message" maxlength="500" rows="6" placeholder="Write your heartfelt message here..."></textarea><div class="count-row"><span>Make every word count</span><span id="count">0 / 500</span></div>
 <div class="actions"><button id="previewBtn" type="button">Preview Note</button><button id="copyBtn" type="button">Copy Message</button><button id="downloadBtn" type="button">Save Message</button></div>
 <article class="preview"><div class="preview-label">A NOTE FROM YOUR CHOSEN WORLD</div><div class="preview-leaf" id="previewSymbol">🍁</div><h3>For <span id="previewTo">Someone Special</span></h3><p id="previewMessage">Your beautiful message will appear here...</p><div class="preview-footer">Made with love in every season</div></article>
-<section class="video-studio"><div class="eyebrow">KEEP THIS MOMENT</div><h2>Make an Autumn Memory</h2><p>Turn your message into a short animated video.</p><button id="videoBtn" type="button" onclick="createAutumnTreeVideo()">Create Autumn Tree MP4</button><p id="videoStatus" role="status">Your video will be prepared here.</p></section></section>
+<section class="video-studio"><div class="eyebrow">KEEP THIS MOMENT</div><h2 id="videoHeading">Make an Autumn Memory</h2><p id="videoDescription">Turn your heartfelt message into a gentle falling-leaves video.</p><button id="videoBtn" type="button" onclick="createAutumnTreeVideo()">Create Autumn Tree MP4</button><p id="videoStatus" role="status">Your video will be prepared here.</p></section></section>
 </main>
 <footer>🍁 AUTUMN TREE LOVE NOTE STUDIO <span>Made with heartfelt words</span></footer>
 <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/umd/index.js"></script>
-<script src="js/app.js?v=v13"></script>
-<script src="js/video.js?v=v13"></script>
+<script src="js/app.js?v=v20"></script>
+<script src="js/video.js?v=v20"></script>
 <script>
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js?v=12").catch(error => console.error("PWA registration failed:", error));
+    navigator.serviceWorker.register("./sw.js?v=20").catch(error => console.error("PWA registration failed:", error));
   });
 }
 </script>

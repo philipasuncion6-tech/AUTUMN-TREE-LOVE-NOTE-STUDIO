@@ -25,116 +25,41 @@
   <div class="theme-heading">
     <span class="eyebrow">CHOOSE YOUR WORLD</span>
     <h2 id="themeTitle">Background Selection</h2>
-    <p>Four beautiful moods for every heartfelt message.</p>
+    <p>Choose your background first, then create your message.</p>
   </div>
   <div class="theme-grid">
-    <button class="theme-card active" type="button" data-theme="autumn" aria-pressed="true">
-      <span class="theme-art autumn-art" aria-hidden="true">🍁 🍂 🍃</span>
-      <strong>Autumn Love</strong><small>Falling autumn leaves</small>
-    </button>
-    <button class="theme-card" type="button" data-theme="winter" aria-pressed="false">
-      <span class="theme-art winter-art" aria-hidden="true">❄️ 🐻 ❄️</span>
-      <strong>Winter &amp; Snow Bear</strong><small>Snowfall and cozy wishes</small>
-    </button>
-    <button class="theme-card" type="button" data-theme="flowers" aria-pressed="false">
-      <span class="theme-art flowers-art" aria-hidden="true">🌷 🌸 🌼</span>
-      <strong>Flowers Studio</strong><small>Tulips, roses and blooms</small>
-    </button>
-    <button class="theme-card" type="button" data-theme="garden" aria-pressed="false">
-      <span class="theme-art garden-art" aria-hidden="true">🌹 💗 🌿</span>
-      <strong>Romantic Garden</strong><small>Roses and glowing hearts</small>
-    </button>
+    <button class="theme-card active" type="button" data-theme="autumn" aria-pressed="true"><span class="theme-art autumn-art" aria-hidden="true">🍁 🍂 🍃</span><strong>Autumn Love</strong><small>Falling autumn leaves</small></button>
+    <button class="theme-card" type="button" data-theme="winter" aria-pressed="false"><span class="theme-art winter-art" aria-hidden="true">❄️ 🐻 ❄️</span><strong>Winter &amp; Snow Bear</strong><small>Snowfall and cozy wishes</small></button>
+    <button class="theme-card" type="button" data-theme="flowers" aria-pressed="false"><span class="theme-art flowers-art" aria-hidden="true">🌸 🌷 🌼</span><strong>Flowers Studio</strong><small>Let your love blossom</small></button>
+    <button class="theme-card" type="button" data-theme="garden" aria-pressed="false"><span class="theme-art garden-art" aria-hidden="true">🌹 💗 🌿</span><strong>Romantic Garden</strong><small>A rose garden for two</small></button>
   </div>
   <p class="theme-status" id="themeStatus" aria-live="polite">Autumn Love selected</p>
+  <button id="createMessageBtn" class="continue-message" type="button">✍️ Create Message</button>
 </section>
 
-<section class="scene">
-  <div class="scene-caption">
-    <span id="sceneEyebrow">AN AUTUMN MOMENT</span>
-    <h1 id="sceneTitle">Meet Me Beneath the Tree</h1>
-    <p id="sceneDescription">Where golden leaves fall and beautiful memories begin.</p>
-  </div>
-  <img class="tree-art" src="assets/autumn-tree-bench.svg" alt="A large autumn tree with a wooden park bench beneath it">
-  <div class="scene-bottom">🍂 A LITTLE NOTE • A LASTING MEMORY 🍂</div>
-</section>
+<section class="scene" id="scene"><img class="winter-scene-art" src="assets/winter-snow-bear-preview.jpg" alt="A fluffy white polar bear cub sitting in a snowy pine forest"><div class="scene-caption"><span id="sceneEyebrow">AN AUTUMN MOMENT</span><h1 id="sceneTitle">Meet Me Beneath the Tree</h1><p id="sceneDescription">Where golden leaves fall and beautiful memories begin.</p></div><img class="tree-art" src="assets/autumn-tree-bench.svg" alt="A large autumn tree with a wooden park bench beneath it"><div class="scene-bottom">🍂 A LITTLE NOTE • A LASTING MEMORY 🍂</div></section>
 
-<section class="family-moment">
-  <div class="family-copy">
-    <span class="eyebrow">A SPECIAL FAMILY MOMENT</span>
-    <h2>Love Grows Beneath the Autumn Tree</h2>
-    <p>Some of life's most beautiful memories are made with the people closest to our hearts.</p>
-    <div class="family-signature">Together is a beautiful place to be. ❤️</div>
-  </div>
-  <figure class="family-photo">
-    <img id="themeArtworkImage" src="assets/mother-daughter-autumn.jpg"
-         alt="A mother and daughter sharing a warm autumn moment beneath a maple tree">
-    <figcaption>A precious moment to treasure forever</figcaption>
-  </figure>
-</section>
+<section class="family-moment"><div class="family-copy"><span class="eyebrow">A SPECIAL FAMILY MOMENT</span><h2>Love Grows Beneath the Autumn Tree</h2><p>Some of life's most beautiful memories are made with the people closest to our hearts.</p><div class="family-signature">Together is a beautiful place to be. ❤️</div></div><figure class="family-photo"><img id="themeArtworkImage" src="assets/mother-daughter-autumn.jpg" alt="A mother and daughter sharing a warm autumn moment beneath a maple tree"><figcaption>A precious moment to treasure forever</figcaption></figure></section>
 
-<section class="studio">
-  <div class="section-heading">
-    <span class="eyebrow">YOUR HEARTFELT MESSAGE</span>
-    <h2>Create a Love Note</h2>
-    <p>Write something meaningful for someone special.</p>
-  </div>
-
-  <label for="recipient">To someone special</label>
-  <input id="recipient" type="text" placeholder="Enter recipient's name">
-
-  <label for="occasion">Choose an occasion</label>
-  <select id="occasion">
-    <option value="love">Just Because / Love</option>
-    <option value="birthday">Birthday</option>
-    <option value="anniversary">Anniversary</option>
-    <option value="thankyou">Thank You</option>
-    <option value="missyou">I Miss You</option>
-    <option value="friendship">Friendship</option>
-  </select>
-
-  <label for="message">Your message</label>
-  <textarea id="message" maxlength="500" rows="6" placeholder="Write your heartfelt message here..."></textarea>
-  <div class="count-row"><span>Make every word count</span><span id="count">0 / 500</span></div>
-
-  <div class="actions">
-    <button id="previewBtn" type="button">Preview Note</button>
-    <button id="copyBtn" type="button">Copy Message</button>
-    <button id="downloadBtn" type="button">Save Message</button>
-  </div>
-
-  <article class="preview">
-    <div class="preview-label">A NOTE FROM THE AUTUMN GARDEN</div>
-    <div class="preview-leaf">🍁</div>
-    <h3>For <span id="previewTo">Someone Special</span></h3>
-    <p id="previewMessage">Your beautiful message will appear here...</p>
-    <div class="preview-footer">Written beneath the autumn tree</div>
-  </article>
-
-  <section class="video-studio">
-    <div class="eyebrow">KEEP THIS MOMENT</div>
-    <h2>Make an Autumn Memory</h2>
-    <p>Turn your message into a short animated video.</p>
-    <button id="videoBtn" type="button" onclick="createAutumnTreeVideo()">Create Autumn Tree MP4</button>
-    <p id="videoStatus" role="status">Your video will be prepared here.</p>
-  </section>
-</section>
+<section class="studio" id="studio"><div class="section-heading"><span class="eyebrow">YOUR HEARTFELT MESSAGE</span><h2>Create a Love Note</h2><p>Write something meaningful for someone special.</p></div>
+<label for="recipient">To someone special</label><input id="recipient" type="text" placeholder="Enter recipient's name">
+<label for="occasion">Choose an occasion</label><select id="occasion"><option value="love">Just Because / Love</option><option value="birthday">Birthday</option><option value="anniversary">Anniversary</option><option value="thankyou">Thank You</option><option value="missyou">I Miss You</option><option value="friendship">Friendship</option></select>
+<label for="message">Your message</label><textarea id="message" maxlength="500" rows="6" placeholder="Write your heartfelt message here..."></textarea><div class="count-row"><span>Make every word count</span><span id="count">0 / 500</span></div>
+<div class="actions"><button id="previewBtn" type="button">Preview Note</button><button id="copyBtn" type="button">Copy Message</button><button id="downloadBtn" type="button">Save Message</button></div>
+<article class="preview"><div class="preview-label">A NOTE FROM YOUR CHOSEN WORLD</div><div class="preview-leaf" id="previewSymbol">🍁</div><h3>For <span id="previewTo">Someone Special</span></h3><p id="previewMessage">Your beautiful message will appear here...</p><div class="preview-footer">Made with love in every season</div></article>
+<section class="video-studio"><div class="eyebrow">KEEP THIS MOMENT</div><h2 id="videoHeading">Make an Autumn Memory</h2><p id="videoDescription">Turn your heartfelt message into a gentle falling-leaves video.</p><button id="videoBtn" type="button" onclick="createAutumnTreeVideo()">Create Autumn Tree MP4</button><p id="videoStatus" role="status">Your video will be prepared here.</p></section></section>
 </main>
-
 <footer>🍁 AUTUMN TREE LOVE NOTE STUDIO <span>Made with heartfelt words</span></footer>
-
 <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/umd/index.js"></script>
-<script src="js/app.js?v=sceneimages2"></script>
-<script src="js/video.js?v=sceneimages2"></script>
-
+<script src="js/app.js?v=v20"></script>
+<script src="js/video.js?v=v20"></script>
 <script>
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js?v=9")
-      .catch(error => console.error("PWA registration failed:", error));
+    navigator.serviceWorker.register("./sw.js?v=20").catch(error => console.error("PWA registration failed:", error));
   });
 }
 </script>
-
 </body>
 </html>
