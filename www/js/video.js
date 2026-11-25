@@ -67,33 +67,6 @@ async function createAutumnTreeVideo() {
       ctx.roundRect(x, y, w, h, r);
     }
 
-    function drawThemeArtwork() {
-      const frame = theme === "winter" ? {x:55, y:112, w:430, h:645, radius:22} : {x:13, y:128, w:514, h:540, radius:20};
-      ctx.save();
-      roundedRect(frame.x, frame.y, frame.w, frame.h, frame.radius);
-      ctx.clip();
-      ctx.fillStyle = themeConfig.colors[0];
-      ctx.fillRect(frame.x, frame.y, frame.w, frame.h);
-      const imageRatio = familyImage.naturalWidth / familyImage.naturalHeight;
-      if (theme === "winter" && imageRatio < 0.8) {
-        const drawHeight = frame.h;
-        const drawWidth = drawHeight * imageRatio;
-        ctx.drawImage(familyImage, frame.x + (frame.w - drawWidth) / 2, frame.y, drawWidth, drawHeight);
-      } else {
-        const scale = Math.max(frame.w / familyImage.naturalWidth, frame.h / familyImage.naturalHeight);
-        const drawWidth = familyImage.naturalWidth * scale;
-        const drawHeight = familyImage.naturalHeight * scale;
-        ctx.drawImage(familyImage, frame.x + (frame.w - drawWidth) / 2, frame.y + (frame.h - drawHeight) / 2, drawWidth, drawHeight);
-      }
-      ctx.restore();
-      ctx.save();
-      ctx.strokeStyle = theme === "winter" ? "#d8efff" : "#e9bd78";
-      ctx.lineWidth = 3;
-      roundedRect(frame.x, frame.y, frame.w, frame.h, frame.radius);
-      ctx.stroke();
-      ctx.restore();
-    }
-
     function drawFallingLeaf(x, y, size, symbol, angle) {
       ctx.save();
       ctx.translate(x, y);
@@ -145,8 +118,26 @@ async function createAutumnTreeVideo() {
       ctx.fillStyle = glow;
       ctx.fillRect(0, 100, 540, 650);
 
-      // Theme artwork: preserve the full portrait polar-bear image in Winter.
-      drawThemeArtwork();
+      // Family artwork with gentle cinematic camera movement
+      const zoom = 1.015 + Math.sin(seconds * .45) * .012;
+      const w = 504 * zoom;
+      const h = 504 * zoom;
+      const x = (540 - w) / 2 + Math.sin(seconds * .3) * 2;
+      const y = 142 + (504 - h) / 2;
+
+      ctx.save();
+      roundedRect(13, 135, 514, 518, 20);
+      ctx.clip();
+      ctx.drawImage(familyImage, x, y, w, h);
+      ctx.restore();
+
+      // Golden frame
+      ctx.save();
+      ctx.strokeStyle = "#e9bd78";
+      ctx.lineWidth = 3;
+      roundedRect(13, 135, 514, 518, 20);
+      ctx.stroke();
+      ctx.restore();
 
       // Animated foreground maple leaves
       leaves.forEach(leaf => {
@@ -159,19 +150,9 @@ async function createAutumnTreeVideo() {
           leaf.x = Math.random() * 540;
         }
 
-        if (theme === "winter") {
-          ctx.save();
-          ctx.globalAlpha = .55 + (leaf.size / 50);
-          ctx.fillStyle = "#f4fbff";
-          ctx.shadowColor = "#d9f2ff";
-          ctx.shadowBlur = leaf.size * .65;
-          ctx.beginPath();
-          ctx.arc(leaf.x, leaf.y, Math.max(1.5, leaf.size * .12), 0, Math.PI * 2);
-          ctx.fill();
-          ctx.restore();
-        } else {
-          drawFallingLeaf(leaf.x, leaf.y, leaf.size, leaf.symbol, leaf.angle);
-        }
+        drawFallingLeaf(
+          leaf.x, leaf.y, leaf.size, leaf.symbol, leaf.angle
+        );
       });
 
       // Title
@@ -195,34 +176,31 @@ async function createAutumnTreeVideo() {
 
         ctx.shadowColor = "rgba(20,10,5,.4)";
         ctx.shadowBlur = 18;
-        const note = theme === "winter"
-          ? {x:28, y:780, w:484, h:145, titleY:805, recipientY:833, messageY:858, lineGap:18, maxLines:2, fontSize:15, footerY:910}
-          : {x:28, y:690, w:484, h:224, titleY:721, recipientY:755, messageY:790, lineGap:25, maxLines:4, fontSize:17, footerY:885};
-        ctx.fillStyle = theme === "winter" ? "rgba(244,250,255,.97)" : "rgba(255,242,217,.96)";
-        ctx.strokeStyle = theme === "winter" ? "#b9def6" : "#d7a65f";
+        ctx.fillStyle = "rgba(255,242,217,.96)";
+        ctx.strokeStyle = "#d7a65f";
         ctx.lineWidth = 2.5;
-        roundedRect(note.x, note.y, note.w, note.h, 20);
+        roundedRect(28, 690, 484, 224, 20);
         ctx.fill();
         ctx.stroke();
         ctx.shadowBlur = 0;
 
-        ctx.fillStyle = theme === "winter" ? "#426887" : "#92572e";
-        ctx.font = "bold 13px Georgia";
-        ctx.fillText("A LITTLE NOTE FOR YOU", 270, note.titleY);
+        ctx.fillStyle = "#92572e";
+        ctx.font = "bold 15px Georgia";
+        ctx.fillText("A LITTLE NOTE FOR YOU", 270, 721);
 
-        ctx.fillStyle = theme === "winter" ? "#193b57" : "#633b27";
-        ctx.font = "bold 21px Georgia";
-        ctx.fillText(recipient.slice(0, 30), 270, note.recipientY);
+        ctx.fillStyle = "#633b27";
+        ctx.font = "bold 23px Georgia";
+        ctx.fillText(recipient.slice(0, 30), 270, 755);
 
-        ctx.font = note.fontSize + "px Georgia";
-        const lines = wrapText(message, 420).slice(0, note.maxLines);
+        ctx.font = "17px Georgia";
+        const lines = wrapText(message, 420).slice(0, 4);
         lines.forEach((line, i) => {
-          ctx.fillText(line, 270, note.messageY + i * note.lineGap);
+          ctx.fillText(line, 270, 790 + i * 25);
         });
 
-        ctx.fillStyle = theme === "winter" ? "#527d9c" : "#a45b31";
-        ctx.font = "italic 15px Georgia";
-        ctx.fillText("With love, always ♥", 270, note.footerY);
+        ctx.fillStyle = "#a45b31";
+        ctx.font = "italic 16px Georgia";
+        ctx.fillText("With love, always ♥", 270, 885);
 
         ctx.restore();
       }
@@ -233,7 +211,7 @@ async function createAutumnTreeVideo() {
       ctx.fillText("Created with love by Asuncion", 270, 946);
     }
 
-    const stream = canvas.captureStream(24);
+    const stream = canvas.captureStream(30);
     let recorder;
 
     try {
