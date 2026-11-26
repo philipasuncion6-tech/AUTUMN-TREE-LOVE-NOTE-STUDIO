@@ -151,10 +151,11 @@ body.theme-garden .scene-caption h1,body.theme-garden .scene-caption p{color:#ff
   letter-spacing:.3px;
   white-space:normal;
   filter:drop-shadow(0 2px 5px rgba(225,177,73,.24));
-  clip-path:inset(0 100% 0 0);
+  opacity:0;
+  transform:translateX(72px);
 }
 .winter-author-signature.is-visible .winter-author-name{
-  animation:winterSignatureWrite 2.8s cubic-bezier(.22,.72,.2,1) .35s forwards,winterGoldShimmer 3.2s ease-in-out 3.3s infinite;
+  animation:winterSignatureSlide 2.8s cubic-bezier(.22,.72,.2,1) .35s forwards,winterGoldShimmer 3.2s ease-in-out 3.3s infinite;
 }
 .winter-author-sparkles{
   display:block;
@@ -167,11 +168,11 @@ body.theme-garden .scene-caption h1,body.theme-garden .scene-caption p{color:#ff
 }
 .winter-author-signature.is-visible .winter-author-sparkles{animation:winterSparkle 1.2s ease 2.7s forwards}
 @keyframes winterSignatureFade{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
-@keyframes winterSignatureWrite{to{clip-path:inset(0 0 0 0)}}
+@keyframes winterSignatureSlide{from{opacity:0;transform:translateX(72px)}to{opacity:1;transform:translateX(0)}}
 @keyframes winterGoldShimmer{0%,100%{background-position:100% 0}50%{background-position:0 0}}
 @keyframes winterSparkle{0%{opacity:0;transform:translateY(4px)}50%{opacity:1;transform:translateY(0)}100%{opacity:.82;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){
   .winter-author-signature.is-visible,.winter-author-signature.is-visible .winter-author-name,.winter-author-signature.is-visible .winter-author-sparkles{animation:none}
-  .winter-author-name{clip-path:none;background-position:50% 0}
+  .winter-author-name{opacity:1;transform:none;background-position:50% 0}
   .winter-author-sparkles{opacity:.82}
 }
