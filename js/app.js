@@ -95,8 +95,8 @@ function newParticle(randomY = true) {
     x: Math.random() * innerWidth,
     y: randomY ? Math.random() * innerHeight : -35,
     size: 13 + Math.random() * 18,
-    speed: activeTheme === "winter" ? .45 + Math.random() * 1.1 : .55 + Math.random() * 1.25,
-    drift: Math.random() * 1.2 - .6,
+    speed: activeTheme === "winter" ? .55 + Math.random() * 1.25 : .7 + Math.random() * 1.45,
+    drift: Math.random() * 1.8 - .9,
     angle: Math.random() * 6.28,
     spin: (Math.random() - .5) * .025,
     symbol: symbols[Math.floor(Math.random() * symbols.length)]
@@ -104,7 +104,7 @@ function newParticle(randomY = true) {
 }
 function resetParticles() {
   particles = [];
-  const count = window.innerWidth < 600 ? 15 : 24;
+  const count = window.innerWidth < 600 ? 24 : 42;
   for (let i = 0; i < count; i++) particles.push(newParticle());
 }
 function applyTheme(theme, save = true) {
@@ -186,7 +186,7 @@ function animateParticles() {
     ctx.save();
     ctx.translate(particle.x, particle.y);
     ctx.rotate(particle.angle);
-    ctx.globalAlpha = activeTheme === "winter" ? .78 : .86;
+    ctx.globalAlpha = activeTheme === "winter" ? .88 : .92;
     ctx.font = particle.size + 'px "Noto Color Emoji","Apple Color Emoji",sans-serif';
     ctx.fillText(particle.symbol, 0, 0);
     ctx.restore();
