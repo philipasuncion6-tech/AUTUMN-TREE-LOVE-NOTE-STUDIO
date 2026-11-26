@@ -1,7 +1,7 @@
 {
   "name": "autumn-tree-love-note-studio",
   "version": "1.0.0",
-  "description": "Autumn Tree Love Note Studio desktop app",
+  "description": "Independent Windows desktop edition of Autumn Tree Love Note Studio",
   "main": "desktop/main.cjs",
   "scripts": {
     "test": "echo \"No automated tests configured\"",
@@ -23,10 +23,19 @@
     "electron-builder": "^26.0.12"
   },
   "build": {
-    "appId": "com.asuncion.autumntreelovenote",
+    "appId": "com.asuncion.autumntreelovenote.desktop",
     "productName": "Autumn Tree Love Note Studio",
     "directories": { "output": "dist" },
-    "files": ["desktop/**/*", "package.json"],
+    "files": [
+      "desktop/**/*",
+      "index.html",
+      "css/**/*",
+      "js/**/*",
+      "assets/**/*",
+      "manifest.json",
+      "sw.js",
+      "package.json"
+    ],
     "win": { "target": [{ "target": "nsis", "arch": ["x64"] }] },
     "nsis": {
       "oneClick": false,
