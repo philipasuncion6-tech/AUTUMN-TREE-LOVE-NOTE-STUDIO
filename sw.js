@@ -1,4 +1,4 @@
-const CACHE_NAME = "autumn-tree-v12";
+const CACHE_NAME = "autumn-tree-v16";
 
 const LOCAL_FILES = [
   "./",
@@ -47,7 +47,7 @@ self.addEventListener("fetch", event => {
 
   const isAppCode =
     url.pathname.endsWith(".html") ||
-    url.pathname.endsWith(".js");
+    url.pathname.endsWith(".js") || url.pathname.endsWith(".css");
 
   event.respondWith(
     isAppCode
