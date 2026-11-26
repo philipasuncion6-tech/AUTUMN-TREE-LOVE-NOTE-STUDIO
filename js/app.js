@@ -66,38 +66,6 @@ const particleSets = {
   garden: ["🌹","💗","🌿","🌸"]
 };
 
-// Reliable visible falling-effect layer.
-// Uses normal DOM text instead of canvas emoji rendering so it remains visible in desktop Chrome.
-let fallingLayer = null;
-let fallingTimer = null;
-function buildFallingLayer(theme) {
-  if (!fallingLayer) {
-    fallingLayer = document.createElement("div");
-    fallingLayer.id = "fallingEffectsLayer";
-    fallingLayer.setAttribute("aria-hidden", "true");
-    document.body.appendChild(fallingLayer);
-  }
-  if (fallingTimer) clearTimeout(fallingTimer);
-  fallingLayer.innerHTML = "";
-  const symbols = particleSets[theme] || particleSets.autumn;
-  const count = window.innerWidth < 700 ? 48 : 88;
-  for (let i = 0; i < count; i++) {
-    const item = document.createElement("span");
-    item.className = "falling-item";
-    item.textContent = symbols[i % symbols.length];
-    item.style.left = (Math.random() * 100) + "vw";
-    item.style.animationDelay = (-Math.random() * 8) + "s";
-    item.style.animationDuration = (7 + Math.random() * 7) + "s";
-    item.style.fontSize = (18 + Math.random() * 30) + "px";
-    item.style.setProperty("--drift", ((Math.random() * 120) - 60) + "px");
-    item.style.setProperty("--spin", ((Math.random() * 360) - 180) + "deg");
-    fallingLayer.appendChild(item);
-  }
-}
-function refreshFallingLayer(theme) {
-  buildFallingLayer(theme);
-}
-
 const themeArtwork = {
   autumn: {src:"assets/mother-daughter-autumn.jpg",alt:"A mother and daughter sharing a warm autumn moment beneath a maple tree",caption:"A precious moment to treasure forever"},
   winter: {src:"assets/winter-snow-bear.svg",alt:"A cuddly white snow bear beneath falling snow",caption:"A cozy winter wish beneath the snow"},
@@ -127,9 +95,9 @@ function newParticle(randomY = true) {
   return {
     x: Math.random() * innerWidth,
     y: randomY ? Math.random() * innerHeight : -35,
-    size: 17 + Math.random() * 25,
-    speed: activeTheme === "winter" ? .55 + Math.random() * 1.25 : .7 + Math.random() * 1.45,
-    drift: Math.random() * 2.4 - 1.2,
+    size: 13 + Math.random() * 18,
+    speed: activeTheme === "winter" ? .45 + Math.random() * 1.1 : .55 + Math.random() * 1.25,
+    drift: Math.random() * 1.2 - .6,
     angle: Math.random() * 6.28,
     spin: (Math.random() - .5) * .025,
     symbol: symbols[Math.floor(Math.random() * symbols.length)]
@@ -137,7 +105,7 @@ function newParticle(randomY = true) {
 }
 function resetParticles() {
   particles = [];
-  const count = window.innerWidth < 600 ? 42 : 76;
+  const count = window.innerWidth < 600 ? 15 : 24;
   for (let i = 0; i < count; i++) particles.push(newParticle());
 }
 function applyTheme(theme, save = true) {
@@ -184,7 +152,6 @@ function applyTheme(theme, save = true) {
     try { localStorage.setItem("autumnTreeTheme", theme); } catch (error) {}
   }
   resetParticles();
-  refreshFallingLayer(theme);
 }
 document.querySelectorAll(".theme-card").forEach(button => {
   button.addEventListener("click", () => {
