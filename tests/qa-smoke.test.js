@@ -18,7 +18,7 @@ const css = read("css/style.css");
 const themes = ["autumn", "winter", "flowers", "garden"];
 
 check("Main page contains all four theme selectors", () => {
-  for (const theme of themes) assert.match(html, new RegExp('data-theme=["'] + theme + '["']'));
+  for (const theme of themes) assert.match(html, new RegExp(`data-theme=["']${theme}["']`));
 });
 check("Message editor and preview controls exist", () => {
   for (const id of ["recipient","message","previewBtn","createMessageBtn","studio","previewMessage"]) {
