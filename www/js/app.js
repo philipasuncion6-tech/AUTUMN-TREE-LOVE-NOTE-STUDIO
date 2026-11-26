@@ -65,6 +65,7 @@ const particleSets = {
   flowers: ["🌸","🌷","🌼","🌺"],
   garden: ["🌹","💗","🌿","🌸"]
 };
+
 const themeArtwork = {
   autumn: {src:"assets/mother-daughter-autumn.jpg",alt:"A mother and daughter sharing a warm autumn moment beneath a maple tree",caption:"A precious moment to treasure forever"},
   winter: {src:"assets/winter-snow-bear.svg",alt:"A cuddly white snow bear beneath falling snow",caption:"A cozy winter wish beneath the snow"},
@@ -76,6 +77,12 @@ const sceneCopy = {
   winter: {eyebrow:"A WINTER WISH",title:"A Cozy Moment in the Snow",description:"Let gentle snowflakes make your message feel magical.",art:"❄️ 🐻 ❄️"},
   flowers: {eyebrow:"A GARDEN IN BLOOM",title:"Let Your Love Blossom",description:"Surround your heartfelt words with beautiful flowers.",art:"🌷 🌸 🌼"},
   garden: {eyebrow:"A ROMANTIC ESCAPE",title:"A Rose Garden for Two",description:"A lovely place for messages filled with warmth and affection.",art:"🌹 💗 🌿"}
+};
+const familyCopy = {
+  autumn: {eyebrow:"A SPECIAL FAMILY MOMENT",title:"Love Grows Beneath the Autumn Tree",description:"Some of life's most beautiful memories are made with the people closest to our hearts.",signature:"Together is a beautiful place to be. ❤️"},
+  winter: {eyebrow:"A COZY WINTER MOMENT",title:"Warm Hearts Beneath the Snow",description:"Even in the coldest season, love keeps every beautiful memory warm.",signature:"Together feels like home. ❄️❤️"},
+  flowers: {eyebrow:"A BEAUTIFUL MOMENT",title:"Let Love Bloom Around You",description:"Some memories grow gently, like flowers cared for with love.",signature:"May every moment blossom beautifully. 🌸❤️"},
+  garden: {eyebrow:"A ROMANTIC MOMENT",title:"A Garden Made for Two",description:"Where roses bloom and heartfelt memories find a beautiful place to stay.",signature:"Love makes every garden brighter. 🌹❤️"}
 };
 function resize() {
   const ratio = Math.min(window.devicePixelRatio || 1, 2);
@@ -104,32 +111,67 @@ function resetParticles() {
 function applyTheme(theme, save = true) {
   if (!particleSets[theme]) return;
   activeTheme = theme;
+  // Single-selection mode: only the chosen world is active at any time.
+  document.querySelectorAll(".theme-card").forEach(button => {
+    const selected = button.dataset.theme === theme;
+    button.classList.toggle("active", selected);
+    button.setAttribute("aria-pressed", String(selected));
+  });
   document.body.classList.remove("theme-autumn","theme-winter","theme-flowers","theme-garden");
-  document.body.classList.add("theme-" + theme);\n  document.body.dataset.activeTheme = theme;
+  document.body.classList.add("theme-" + theme);
+  document.body.dataset.activeTheme = theme;
   const copy = sceneCopy[theme];
   $("sceneEyebrow").textContent = copy.eyebrow;
   $("sceneTitle").textContent = copy.title;
   $("sceneDescription").textContent = copy.description;
   $("scene").dataset.sceneArt = copy.art;
   const artwork = themeArtwork[theme];
+  const previewSymbols = {autumn:"🍁",winter:"❄️",flowers:"🌸",garden:"🌹"};
+  const previewSymbol = $("previewSymbol");
+  if (previewSymbol) previewSymbol.textContent = previewSymbols[theme] || "❤️";
   const artworkImage = $("themeArtworkImage");
   const artworkCaption = document.querySelector(".family-photo figcaption");
   if (artworkImage && artwork) { artworkImage.src = artwork.src; artworkImage.alt = artwork.alt; }
   if (artworkCaption && artwork) artworkCaption.textContent = artwork.caption;
-  document.querySelectorAll(".theme-card").forEach(button => {
-    const selected = button.dataset.theme === theme;
-    button.classList.toggle("active", selected);
-    button.setAttribute("aria-pressed", String(selected));
-  });
+  const family = familyCopy[theme];
+  if (family) {
+    const familyEyebrow = document.querySelector(".family-copy .eyebrow");
+    const familyTitle = document.querySelector(".family-copy h2");
+    const familyDescription = document.querySelector(".family-copy p");
+    const familySignature = document.querySelector(".family-signature");
+    if (familyEyebrow) familyEyebrow.textContent = family.eyebrow;
+    if (familyTitle) familyTitle.textContent = family.title;
+    if (familyDescription) familyDescription.textContent = family.description;
+    if (familySignature) familySignature.textContent = family.signature;
+  }
   $("themeStatus").textContent = document.querySelector('[data-theme="' + theme + '"] strong').textContent + " selected";
+  // Keep the message/preview flow identical for every selected theme.
+  // The default Autumn Love flow remains the master behavior.
+  updatePreview();
   if (save) {
     try { localStorage.setItem("autumnTreeTheme", theme); } catch (error) {}
   }
   resetParticles();
 }
 document.querySelectorAll(".theme-card").forEach(button => {
-  button.addEventListener("click", () => applyTheme(button.dataset.theme));
+  button.addEventListener("click", () => {
+    // Change the selected world and start its falling effect immediately.
+    // Stay on the selection screen so the animation is visible before opening the note editor.
+    applyTheme(button.dataset.theme);
+  });
 });
+
+const createMessageBtn = $("createMessageBtn");
+if (createMessageBtn) {
+  createMessageBtn.addEventListener("click", () => {
+    const messageSection = $("studio");
+    if (messageSection) {
+      messageSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      const recipient = $("recipient");
+      if (recipient) setTimeout(() => recipient.focus({ preventScroll: true }), 350);
+    }
+  });
+}
 function animateParticles() {
   ctx.clearRect(0, 0, innerWidth, innerHeight);
   for (const particle of particles) {
@@ -139,7 +181,7 @@ function animateParticles() {
     ctx.save();
     ctx.translate(particle.x, particle.y);
     ctx.rotate(particle.angle);
-    ctx.globalAlpha = activeTheme === "winter" ? .78 : .86;
+    ctx.globalAlpha = activeTheme === "winter" ? .88 : .92;
     ctx.font = particle.size + 'px "Noto Color Emoji","Apple Color Emoji",sans-serif';
     ctx.fillText(particle.symbol, 0, 0);
     ctx.restore();
