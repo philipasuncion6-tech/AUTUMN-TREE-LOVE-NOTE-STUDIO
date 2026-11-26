@@ -107,3 +107,71 @@ body.theme-flowers .scene-caption h1,body.theme-flowers .scene-caption p{color:#
 body.theme-garden .scene-caption h1,body.theme-garden .scene-caption p{color:#fff0f4}
 @keyframes themeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 @media(max-width:650px){.theme-picker{padding:17px 12px}.theme-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.theme-card{padding:10px 6px}body:not(.theme-autumn) .scene{min-height:330px}}
+
+
+/* WINTER & SNOW BEAR — MP4 completion signature (isolated enhancement) */
+.winter-author-signature{
+  display:none;
+  max-width:560px;
+  margin:18px auto 4px;
+  padding:18px 16px 14px;
+  text-align:center;
+  border:1px solid rgba(224,184,95,.35);
+  border-radius:18px;
+  background:linear-gradient(135deg,rgba(14,35,57,.78),rgba(38,58,76,.72));
+  box-shadow:0 12px 34px rgba(5,17,30,.22),inset 0 0 24px rgba(255,220,145,.05);
+  overflow:hidden;
+}
+.winter-author-signature.is-visible{display:block;animation:winterSignatureFade .9s ease both}
+.winter-author-label{
+  display:block;
+  color:#e7c56e;
+  font:700 10px/1.4 Arial,sans-serif;
+  letter-spacing:5px;
+  margin-bottom:7px;
+  text-shadow:0 0 12px rgba(244,205,112,.35);
+}
+.winter-author-created{
+  display:block;
+  color:#f4dfaa;
+  font:italic 22px/1.25 "Brush Script MT","Segoe Script","URW Chancery L",cursive;
+  margin-bottom:2px;
+}
+.winter-author-name{
+  display:block;
+  width:max-content;
+  max-width:100%;
+  margin:0 auto;
+  color:transparent;
+  background:linear-gradient(100deg,#9a6b22 0%,#f8e6a5 22%,#c79536 42%,#fff1bd 55%,#b27a24 76%,#f5d98b 100%);
+  background-size:220% 100%;
+  background-clip:text;
+  -webkit-background-clip:text;
+  font:italic clamp(28px,5vw,39px)/1.25 "Brush Script MT","Segoe Script","URW Chancery L",cursive;
+  letter-spacing:.3px;
+  white-space:normal;
+  filter:drop-shadow(0 2px 5px rgba(225,177,73,.24));
+  clip-path:inset(0 100% 0 0);
+}
+.winter-author-signature.is-visible .winter-author-name{
+  animation:winterSignatureWrite 2.8s cubic-bezier(.22,.72,.2,1) .35s forwards,winterGoldShimmer 3.2s ease-in-out 3.3s infinite;
+}
+.winter-author-sparkles{
+  display:block;
+  margin-top:7px;
+  color:#f6d987;
+  font-size:13px;
+  letter-spacing:7px;
+  opacity:0;
+  text-shadow:0 0 9px rgba(255,221,137,.8);
+}
+.winter-author-signature.is-visible .winter-author-sparkles{animation:winterSparkle 1.2s ease 2.7s forwards}
+@keyframes winterSignatureFade{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+@keyframes winterSignatureWrite{to{clip-path:inset(0 0 0 0)}}
+@keyframes winterGoldShimmer{0%,100%{background-position:100% 0}50%{background-position:0 0}}
+@keyframes winterSparkle{0%{opacity:0;transform:translateY(4px)}50%{opacity:1;transform:translateY(0)}100%{opacity:.82;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){
+  .winter-author-signature.is-visible,.winter-author-signature.is-visible .winter-author-name,.winter-author-signature.is-visible .winter-author-sparkles{animation:none}
+  .winter-author-name{clip-path:none;background-position:50% 0}
+  .winter-author-sparkles{opacity:.82}
+}
