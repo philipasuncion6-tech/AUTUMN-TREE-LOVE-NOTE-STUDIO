@@ -1,7 +1,7 @@
 *{box-sizing:border-box}
 :root{--gold:#e9b66e;--cream:#fff0d8;--ink:#302522;--wine:#653d35}
 body{margin:0;min-height:100vh;background:radial-gradient(ellipse at top,#795044 0,#352b2b 48%,#1e2225 100%);color:var(--cream);font-family:Georgia,serif;overflow-x:hidden}
-#autumnLeaves{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:99998}
+#autumnLeaves{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:5}
 .top{text-align:center;padding:34px 18px 24px;position:relative;z-index:1}
 .brand{font-family:Georgia,serif;font-size:clamp(25px,6vw,42px);font-weight:bold;letter-spacing:4px;color:#f5c77f;text-shadow:0 3px 20px #e58b45}
 .subtitle{font:600 11px Arial,sans-serif;letter-spacing:5px;color:#f9e3c0;margin-top:10px}
@@ -107,33 +107,3 @@ body.theme-flowers .scene-caption h1,body.theme-flowers .scene-caption p{color:#
 body.theme-garden .scene-caption h1,body.theme-garden .scene-caption p{color:#fff0f4}
 @keyframes themeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 @media(max-width:650px){.theme-picker{padding:17px 12px}.theme-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.theme-card{padding:10px 6px}body:not(.theme-autumn) .scene{min-height:330px}}
-
-
-/* VISIBLE FALLING EFFECTS */
-#fallingEffectsLayer{
-  position:fixed !important;
-  inset:0 !important;
-  width:100vw !important;
-  height:100vh !important;
-  pointer-events:none !important;
-  z-index:99999 !important;   contain:layout paint;
-  overflow:hidden !important;
-}
-.falling-item{
-  position:absolute;
-  top:-60px;
-  display:block;
-  line-height:1;
-  opacity:1 !important;
-  z-index:1;
-  filter:drop-shadow(0 2px 5px rgba(0,0,0,.25));
-  animation:fallingItemDrop linear infinite;   transform-origin:center center;   user-select:none;
-  will-change:transform;
-}
-@keyframes fallingItemDrop{
-  0%{transform:translate3d(0,-70px,0) rotate(0deg);opacity:0}
-  8%{opacity:.9}
-  50%{transform:translate3d(var(--drift),55vh,0) rotate(var(--spin));opacity:.9}
-  92%{opacity:.85}
-  100%{transform:translate3d(calc(var(--drift) * -1),115vh,0) rotate(calc(var(--spin) * 2));opacity:0}
-}
