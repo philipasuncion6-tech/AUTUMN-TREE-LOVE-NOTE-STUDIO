@@ -80,15 +80,15 @@ function buildFallingLayer(theme) {
   if (fallingTimer) clearTimeout(fallingTimer);
   fallingLayer.innerHTML = "";
   const symbols = particleSets[theme] || particleSets.autumn;
-  const count = window.innerWidth < 700 ? 22 : 38;
+  const count = window.innerWidth < 700 ? 30 : 54;
   for (let i = 0; i < count; i++) {
     const item = document.createElement("span");
     item.className = "falling-item";
     item.textContent = symbols[i % symbols.length];
     item.style.left = (Math.random() * 100) + "vw";
-    item.style.animationDelay = (-Math.random() * 12) + "s";
-    item.style.animationDuration = (8 + Math.random() * 8) + "s";
-    item.style.fontSize = (14 + Math.random() * 18) + "px";
+    item.style.animationDelay = (-Math.random() * 8) + "s";
+    item.style.animationDuration = (6 + Math.random() * 5) + "s";
+    item.style.fontSize = (22 + Math.random() * 18) + "px";
     item.style.setProperty("--drift", ((Math.random() * 120) - 60) + "px");
     item.style.setProperty("--spin", ((Math.random() * 360) - 180) + "deg");
     fallingLayer.appendChild(item);
