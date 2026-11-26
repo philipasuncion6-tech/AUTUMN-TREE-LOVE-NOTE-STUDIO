@@ -188,15 +188,9 @@ function applyTheme(theme, save = true) {
 }
 document.querySelectorAll(".theme-card").forEach(button => {
   button.addEventListener("click", () => {
+    // Change the selected world and start its falling effect immediately.
+    // Stay on the selection screen so the animation is visible before opening the note editor.
     applyTheme(button.dataset.theme);
-    const messageSection = $("studio");
-    if (messageSection) {
-      setTimeout(() => {
-        messageSection.scrollIntoView({ behavior: "smooth", block: "start" });
-        const recipient = $("recipient");
-        if (recipient) recipient.focus({ preventScroll: true });
-      }, 120);
-    }
   });
 });
 
