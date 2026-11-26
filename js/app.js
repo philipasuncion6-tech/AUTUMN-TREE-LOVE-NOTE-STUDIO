@@ -80,15 +80,15 @@ function buildFallingLayer(theme) {
   if (fallingTimer) clearTimeout(fallingTimer);
   fallingLayer.innerHTML = "";
   const symbols = particleSets[theme] || particleSets.autumn;
-  const count = window.innerWidth < 700 ? 30 : 54;
+  const count = window.innerWidth < 700 ? 48 : 88;
   for (let i = 0; i < count; i++) {
     const item = document.createElement("span");
     item.className = "falling-item";
     item.textContent = symbols[i % symbols.length];
     item.style.left = (Math.random() * 100) + "vw";
     item.style.animationDelay = (-Math.random() * 8) + "s";
-    item.style.animationDuration = (6 + Math.random() * 5) + "s";
-    item.style.fontSize = (22 + Math.random() * 18) + "px";
+    item.style.animationDuration = (7 + Math.random() * 7) + "s";
+    item.style.fontSize = (18 + Math.random() * 30) + "px";
     item.style.setProperty("--drift", ((Math.random() * 120) - 60) + "px");
     item.style.setProperty("--spin", ((Math.random() * 360) - 180) + "deg");
     fallingLayer.appendChild(item);
@@ -127,9 +127,9 @@ function newParticle(randomY = true) {
   return {
     x: Math.random() * innerWidth,
     y: randomY ? Math.random() * innerHeight : -35,
-    size: 13 + Math.random() * 18,
+    size: 17 + Math.random() * 25,
     speed: activeTheme === "winter" ? .55 + Math.random() * 1.25 : .7 + Math.random() * 1.45,
-    drift: Math.random() * 1.8 - .9,
+    drift: Math.random() * 2.4 - 1.2,
     angle: Math.random() * 6.28,
     spin: (Math.random() - .5) * .025,
     symbol: symbols[Math.floor(Math.random() * symbols.length)]
@@ -137,7 +137,7 @@ function newParticle(randomY = true) {
 }
 function resetParticles() {
   particles = [];
-  const count = window.innerWidth < 600 ? 24 : 42;
+  const count = window.innerWidth < 600 ? 42 : 76;
   for (let i = 0; i < count; i++) particles.push(newParticle());
 }
 function applyTheme(theme, save = true) {
