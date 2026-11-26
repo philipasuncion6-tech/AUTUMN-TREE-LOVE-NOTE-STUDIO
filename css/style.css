@@ -116,7 +116,7 @@ body.theme-garden .scene-caption h1,body.theme-garden .scene-caption p{color:#ff
   width:100vw !important;
   height:100vh !important;
   pointer-events:none !important;
-  z-index:99999 !important;\n  contain:layout paint;
+  z-index:99999 !important;   contain:layout paint;
   overflow:hidden !important;
 }
 .falling-item{
@@ -127,7 +127,7 @@ body.theme-garden .scene-caption h1,body.theme-garden .scene-caption p{color:#ff
   opacity:1 !important;
   z-index:1;
   filter:drop-shadow(0 2px 5px rgba(0,0,0,.25));
-  animation:fallingItemDrop linear infinite;\n  transform-origin:center center;\n  user-select:none;
+  animation:fallingItemDrop linear infinite;   transform-origin:center center;   user-select:none;
   will-change:transform;
 }
 @keyframes fallingItemDrop{
