@@ -1,13 +1,15 @@
 {
   "name": "autumn-tree-love-note-studio",
   "version": "1.0.0",
-  "description": "",
-  "main": "sw.js",
+  "description": "Autumn Tree Love Note Studio desktop app",
+  "main": "desktop/main.cjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No automated tests configured\"",
+    "start:desktop": "electron .",
+    "dist:win": "electron-builder --win nsis --x64"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["autumn", "love-note", "desktop"],
+  "author": "Asuncion",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
@@ -16,6 +18,22 @@
   },
   "devDependencies": {
     "@capacitor/assets": "^4.0.0",
-    "@capacitor/cli": "^8.6.2"
+    "@capacitor/cli": "^8.6.2",
+    "electron": "^39.2.7",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.asuncion.autumntreelovenote",
+    "productName": "Autumn Tree Love Note Studio",
+    "directories": { "output": "dist" },
+    "files": ["desktop/**/*", "package.json"],
+    "win": { "target": [{ "target": "nsis", "arch": ["x64"] }] },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Autumn Tree Love Note Studio"
+    }
   }
 }
